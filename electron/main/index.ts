@@ -43,6 +43,8 @@ const createWindow = async () => {
   if (app.isPackaged) mainWindow.loadFile(indexHtml);
   else mainWindow.loadURL(url);
 
+  mainWindow.menuBarVisible = false;
+
   // Test actively push message to the Electron-Renderer
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow?.webContents.send(
