@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -11,36 +11,29 @@ import {
   PopoverTrigger,
   Stack,
 } from '@chakra-ui/react';
+import _ from 'lodash';
 import { Pane } from 'split-pane-react';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
-import { EDITOR_THEME } from './utils/constant';
-import useLocalStorage from './hooks/useLocalStorage';
+import { EDITOR_THEME } from './utils/constant/editor';
 import { chakraColor } from './utils/theme';
 import { readOnlyMode } from './utils/editor/extensions';
+import useCompiler from './hooks/useCompiler';
+import useAppContext from './hooks/useAppContext';
 
 const App = () => {
-  const [sizes, setSizes] = useLocalStorage<number[]>('PANE_SIZE', [50, 50]);
-  const [theme, setTheme] = useLocalStorage<keyof typeof EDITOR_THEME>(
-    'THEME',
-    'dark'
-  );
-  const [bgColor, setBgColor] = useLocalStorage<string>(
-    'BG_COLOR',
-    EDITOR_THEME.dark.bgColor
-  );
-  const [userCode, setUserCode] = useState('');
-
-  const changeTheme = (theme: keyof typeof EDITOR_THEME) => () =>
-    setTheme((curr) => {
-      if (curr === theme) {
-        setBgColor(EDITOR_THEME.dark.bgColor);
-        return 'dark';
-      }
-
-      setBgColor(EDITOR_THEME[theme].bgColor);
-      return theme;
-    });
+  const {
+    sizes,
+    setSizes,
+    theme,
+    setTheme,
+    bgColor,
+    setBgColor,
+    userCode,
+    setUserCode,
+    changeTheme,
+  } = useAppContext();
+  const codeResult = useCompiler(userCode);
 
   return (
     <Box
@@ -63,11 +56,14 @@ const App = () => {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-        {/* 
-        <Button onClick={changeTheme('vscodeDark')}>Vs Code</Button>
-        <Button onClick={changeTheme('okaidia')}>Okaidia</Button>
-        <Button onClick={changeTheme('dracula')}>Dracula</Button>
-        <Button onClick={changeTheme('nord')}>Nord</Button> */}
+        {_.map(EDITOR_THEME, ({ name }, key) => (
+          <Button
+            onClick={changeTheme(key as keyof typeof EDITOR_THEME)}
+            key={name}
+          >
+            {name}
+          </Button>
+        ))}
       </Stack>
       <SplitPane
         split="vertical"
@@ -87,8 +83,7 @@ const App = () => {
           />
         </Pane>
         <Editor
-          value={userCode}
-          setValue={setUserCode}
+          value={codeResult}
           theme={EDITOR_THEME[theme].theme}
           fontSize={'22px'}
           height={'100%'}

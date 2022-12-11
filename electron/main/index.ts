@@ -35,13 +35,16 @@ const createWindow = async () => {
     icon: join(ROOT_PATH.public, 'vite.svg'),
     webPreferences: {
       preload,
+      contextIsolation: true,
       nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegrationInWorker: true,
     },
   });
 
   if (app.isPackaged) mainWindow.loadFile(indexHtml);
   else mainWindow.loadURL(url);
+
+  if (!app.isPackaged) mainWindow.webContents.openDevTools();
 
   mainWindow.menuBarVisible = false;
 

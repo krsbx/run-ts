@@ -63,7 +63,7 @@ const Editor = ({
 
 type Props = {
   value: string;
-  setValue: ReactSetter<string>;
+  setValue?: ReactSetter<string>;
   theme: 'dark' | 'light' | Extension;
   fontSize?: string;
   width?: string;

@@ -18,4 +18,7 @@ export default defineConfig({
         port: parseInt(process.env.VITE_DEV_SERVER_PORT ?? '7777', 10),
       }
     : undefined,
+  optimizeDeps: {
+    exclude: ['dist-electron/.files.ts'],
+  },
 });
