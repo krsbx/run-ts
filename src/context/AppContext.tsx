@@ -11,12 +11,15 @@ type ContextProps = {
   setBgColor: ReactSetter<string>;
   userCode: string;
   setUserCode: ReactSetter<string>;
+  filePath: string;
+  setFilePath: ReactSetter<string>;
   changeTheme: (theme: keyof typeof EDITOR_THEME) => () => void;
 };
 
 export const AppContext = React.createContext<ContextProps>({} as ContextProps);
 
 const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const [filePath, setFilePath] = useLocalStorage<string>('FILE_PATH', '');
   const [sizes, setSizes] = useLocalStorage<number[]>('PANE_SIZE', [50, 50]);
   const [theme, setTheme] = useLocalStorage<keyof typeof EDITOR_THEME>(
     'THEME',
@@ -50,6 +53,8 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
         setBgColor,
         userCode,
         setUserCode,
+        filePath,
+        setFilePath,
         changeTheme,
       }}
     >

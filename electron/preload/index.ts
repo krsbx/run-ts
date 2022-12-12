@@ -1,4 +1,4 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { execAsync } from '../../src/utils/common';
@@ -12,4 +12,5 @@ contextBridge.exposeInMainWorld(APP_NAME, {
   fs,
   path,
   rootPath: path.join(__dirname, '..'),
+  ipcRenderer,
 });
