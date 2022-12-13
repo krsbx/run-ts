@@ -1,18 +1,18 @@
 import { dialog, ipcMain } from 'electron';
 import { SHOW_DIALOG } from '../../../src/utils/constant/ipc';
 
-ipcMain.on(SHOW_DIALOG.SAVE, async (event) => {
+ipcMain.on(SHOW_DIALOG.SAVE, async (event, defaultPath?: string) => {
   try {
     const result = await dialog.showSaveDialog({
       title: 'Save File...',
       buttonLabel: 'Save',
       filters: [
-        { name: 'js', extensions: ['js'] },
-        { name: 'jsx', extensions: ['jsx'] },
         { name: 'ts', extensions: ['ts'] },
         { name: 'tsx', extensions: ['tsx'] },
-        { name: 'All Files', extensions: ['*'] },
+        { name: 'js', extensions: ['js'] },
+        { name: 'jsx', extensions: ['jsx'] },
       ],
+      defaultPath,
     });
 
     return (event.returnValue = result);
@@ -26,19 +26,28 @@ ipcMain.on(SHOW_DIALOG.SAVE, async (event) => {
 
 ipcMain.on(
   SHOW_DIALOG.OPEN,
-  async (event, properties: Electron.OpenDialogOptions['properties'] = []) => {
+  async (
+    event,
+    {
+      properties = [],
+      defaultPath,
+    }: {
+      properties: Electron.OpenDialogOptions['properties'];
+      defaultPath?: string;
+    }
+  ) => {
     try {
       const result = await dialog.showOpenDialog({
         title: 'Open File...',
         buttonLabel: 'Open',
         filters: [
-          { name: 'js', extensions: ['js'] },
-          { name: 'jsx', extensions: ['jsx'] },
           { name: 'ts', extensions: ['ts'] },
           { name: 'tsx', extensions: ['tsx'] },
-          { name: 'All Files', extensions: ['*'] },
+          { name: 'js', extensions: ['js'] },
+          { name: 'jsx', extensions: ['jsx'] },
         ],
         properties,
+        defaultPath,
       });
 
       return (event.returnValue = result);

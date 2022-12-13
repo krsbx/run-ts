@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import { execAsync } from '../../src/utils/common';
+import { execAsync, getFileDirPath } from '../../src/utils/common';
 import { APP_NAME } from '../../src/utils/constant/global';
 
 // See the Electron documentation for details on how to use preload scripts:
@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld(APP_NAME, {
   path,
   rootPath: path.join(__dirname, '..'),
   ipcRenderer,
+  getFileDirPath,
 });

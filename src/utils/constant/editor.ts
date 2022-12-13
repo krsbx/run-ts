@@ -5,7 +5,6 @@ import {
   nord,
   aura,
   darcula,
-  eclipse,
   githubDark,
   materialDark,
   xcodeDark,
@@ -39,11 +38,6 @@ export const EDITOR_THEME = {
     name: 'Duo Tone',
     theme: duotoneDark,
     bgColor: '#2a2734',
-  },
-  eclipse: {
-    name: 'Eclipse',
-    theme: eclipse,
-    bgColor: '#fff',
   },
   githubDark: {
     name: 'Github',

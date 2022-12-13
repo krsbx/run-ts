@@ -2,7 +2,7 @@ import React from 'react';
 import fs from 'fs';
 import path from 'path';
 import { ipcRenderer } from 'electron';
-import { execAsync } from '../utils/common';
+import { execAsync, getFileDirPath } from '../utils/common';
 import { APP_NAME } from '../utils/constant/global';
 
 declare global {
@@ -11,6 +11,7 @@ declare global {
   interface Window {
     [APP_NAME]: {
       execAsync: typeof execAsync;
+      getFileDirPath: typeof getFileDirPath;
       path: typeof path;
       fs: typeof fs;
       rootPath: string;
