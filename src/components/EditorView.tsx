@@ -6,38 +6,69 @@ import { keymap, KeyBinding } from '@codemirror/view';
 import SplitPane from './SplitPane';
 import Editor from './Editor';
 import useAppContext from '../hooks/useAppContext';
-import useCompiler from '../hooks/useCompiler';
-import { readOnlyMode } from '../utils/editor/extensions';
 import { chakraColor } from '../utils/theme';
 import { EDITOR_THEME } from '../utils/constant/editor';
 import useFileAction from '../hooks/useFileAction';
+import useUtility from '../hooks/useUtility';
 
 const EditorView = () => {
-  const { sizes, setSizes, theme, userCode, setUserCode } = useAppContext();
-  const { saveFile } = useFileAction();
-  const codeResult = useCompiler(userCode);
+  const { codeSizes, setCodeSizes, theme, filePath } = useAppContext();
+  const { userCode, setUserCode, userCodeImport, setUserCodeImport } =
+    useAppContext();
+  const { saveFile, saveFileAs, openFile } = useFileAction();
+  const { getFileDirPath } = useUtility();
 
   const keyBinding = keymap.of([
     {
       key: 'Mod-s',
       preventDefault: true,
       run: () => {
-        if (!_.isEmpty(userCode)) saveFile();
+        saveFile();
 
         return true;
       },
-    } as KeyBinding,
+    },
+    {
+      key: 'Mod-S',
+      preventDefault: true,
+      run: () => {
+        saveFileAs(getFileDirPath(filePath));
+
+        return true;
+      },
+    },
+    {
+      key: 'Mod-o',
+      preventDefault: true,
+      run: () => {
+        openFile(undefined, getFileDirPath(filePath));
+
+        return true;
+      },
+    },
     ...emacsStyleKeymap,
-  ]);
+  ] as KeyBinding[]);
 
   return (
     <SplitPane
-      split="vertical"
-      sizes={sizes}
-      onChange={setSizes}
-      style={{ height: 'calc(100% - 30px)' }}
+      split="horizontal"
+      sizes={codeSizes}
+      onChange={setCodeSizes}
+      style={{ height: '100%' }}
     >
-      <Pane minSize={'20%'} maxSize={'80%'}>
+      <Editor
+        value={userCodeImport}
+        setValue={setUserCodeImport}
+        theme={EDITOR_THEME[theme].theme}
+        fontSize={'22px'}
+        height={'100%'}
+        width={'100%'}
+        style={{
+          borderRight: `2px solid ${chakraColor('gray', '700')}`,
+        }}
+        extensions={[keyBinding]}
+      />
+      <Pane minSize={'20%'} maxSize={'90%'}>
         <Editor
           value={userCode}
           setValue={setUserCode}
@@ -45,18 +76,13 @@ const EditorView = () => {
           fontSize={'22px'}
           height={'100%'}
           width={'100%'}
-          borderRight={`2px solid ${chakraColor('gray', '800')}`}
+          style={{
+            borderRight: `2px solid ${chakraColor('gray', '700')}`,
+            borderTop: `2px solid ${chakraColor('gray', '700')}`,
+          }}
           extensions={[keyBinding]}
         />
       </Pane>
-      <Editor
-        value={codeResult}
-        theme={EDITOR_THEME[theme].theme}
-        fontSize={'22px'}
-        height={'100%'}
-        width={'100%'}
-        extensions={[readOnlyMode]}
-      />
     </SplitPane>
   );
 };

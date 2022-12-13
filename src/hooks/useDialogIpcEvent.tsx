@@ -3,18 +3,27 @@ import { APP_NAME } from '../utils/constant/global';
 import { SHOW_DIALOG } from '../utils/constant/ipc';
 
 const useDialogIpcEvent = () => {
-  const showSaveDialog = useCallback(() => {
-    const result = window[APP_NAME].ipcRenderer.sendSync(SHOW_DIALOG.SAVE);
+  const showSaveDialog = useCallback((defaultPath?: string) => {
+    const result = window[APP_NAME].ipcRenderer.sendSync(
+      SHOW_DIALOG.SAVE,
+      defaultPath
+    );
 
     return result as Electron.SaveDialogReturnValue;
   }, []);
 
   const showOpenDialog = useCallback(
-    (properties: Electron.OpenDialogOptions['properties'] = []) => {
-      const result = window[APP_NAME].ipcRenderer.sendSync(
-        SHOW_DIALOG.OPEN,
-        properties
-      );
+    ({
+      properties = [],
+      defaultPath = undefined,
+    }: {
+      properties: Electron.OpenDialogOptions['properties'];
+      defaultPath?: string;
+    }) => {
+      const result = window[APP_NAME].ipcRenderer.sendSync(SHOW_DIALOG.OPEN, {
+        properties,
+        defaultPath,
+      });
 
       return result as Electron.OpenDialogReturnValue;
     },

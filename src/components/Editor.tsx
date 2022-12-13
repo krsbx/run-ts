@@ -1,11 +1,9 @@
 import React, { createRef } from 'react';
-import * as CSS from 'csstype';
-import { ResponsiveValue } from '@chakra-ui/styled-system/dist';
 import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { EditorView } from '@codemirror/view';
 import { Extension } from '@codemirror/state';
 import { javascript, autoCloseTags } from '@codemirror/lang-javascript';
-import { Box } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 
 const Editor = ({
   fontSize = '16px',
@@ -14,9 +12,8 @@ const Editor = ({
   theme,
   width = '100%',
   height = '100%',
-  borderLeft,
-  borderRight,
   extensions = [],
+  style,
 }: Props) => {
   const codemirrorRef = createRef<ReactCodeMirrorRef>();
 
@@ -30,19 +27,15 @@ const Editor = ({
   });
 
   return (
-    <Box
-      borderLeft={borderLeft}
-      borderRight={borderRight}
-      borderTop={'none'}
-      borderBottom={'none'}
-      width={'100%'}
-      height={'100%'}
-    >
+    <Box width={'100%'} height={'100%'} {...style}>
       <CodeMirror
         value={value}
         theme={theme}
         height={'100%'}
         width={'100%'}
+        basicSetup={{
+          defaultKeymap: false,
+        }}
         extensions={[
           extraExt,
           javascript({ jsx: true, typescript: true }),
@@ -68,8 +61,7 @@ type Props = {
   fontSize?: string;
   width?: string;
   height?: string;
-  borderLeft?: ResponsiveValue<CSS.Property.BorderLeft | number>;
-  borderRight?: ResponsiveValue<CSS.Property.BorderLeft | number>;
+  style?: BoxProps;
   extensions?: Extension[];
 };
 

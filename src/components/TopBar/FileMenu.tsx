@@ -10,9 +10,13 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import useFileAction from '../../hooks/useFileAction';
+import useAppContext from '../../hooks/useAppContext';
+import useUtility from '../../hooks/useUtility';
 
 const FileMenu = () => {
+  const { filePath } = useAppContext();
   const { openFile, saveFile, saveFileAs } = useFileAction();
+  const { getFileDirPath } = useUtility();
 
   return (
     <Popover>
@@ -36,7 +40,10 @@ const FileMenu = () => {
                 <Button bgColor={'whiteAlpha.500'} onClick={saveFile}>
                   Save
                 </Button>
-                <Button bgColor={'whiteAlpha.500'} onClick={saveFileAs}>
+                <Button
+                  bgColor={'whiteAlpha.500'}
+                  onClick={() => saveFileAs(getFileDirPath(filePath))}
+                >
                   Save As
                 </Button>
               </Stack>
