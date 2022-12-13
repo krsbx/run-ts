@@ -1,5 +1,5 @@
 import { dialog, ipcMain } from 'electron';
-import { SHOW_DIALOG } from '../../../src/utils/constant/ipc';
+import { SHOW_DIALOG } from '../../src/utils/constant/ipc';
 
 ipcMain.on(SHOW_DIALOG.SAVE, async (event, defaultPath?: string) => {
   try {

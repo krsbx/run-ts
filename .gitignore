@@ -88,6 +88,7 @@ typings/
 # Electron-Forge
 out/
 
+dist
 dist-electron
-
+release
 .files.ts
