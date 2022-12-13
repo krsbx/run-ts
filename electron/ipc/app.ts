@@ -1,5 +1,5 @@
 import { app, ipcMain } from 'electron';
-import { APP_VARIABLE } from '../../../src/utils/constant/ipc';
+import { APP_VARIABLE } from '../../src/utils/constant/ipc';
 
 ipcMain.on(
   APP_VARIABLE.PATH,

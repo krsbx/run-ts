@@ -3,8 +3,6 @@ import { release } from 'os';
 import { join } from 'path';
 import './ipc';
 
-const DIST_PATH = join(__dirname, '../dist');
-
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
 
@@ -17,23 +15,20 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
-
-export const ROOT_PATH = {
-  // /dist
-  dist: DIST_PATH,
-  // /dist or /public
-  public: app.isPackaged ? DIST_PATH : join(DIST_PATH, '../public'),
-};
+process.env.DIST = join(__dirname, '../dist');
+process.env.PUBLIC = app.isPackaged
+  ? process.env.DIST
+  : join(process.env.DIST, '../public');
 
 // Here, you can also use other preload
-const preload = join(__dirname, '../preload/index.js');
+const preload = join(__dirname, 'preload.js');
 const url = process.env.VITE_DEV_SERVER_URL ?? 'http://127.0.0.1:7777';
-const indexHtml = join(ROOT_PATH.dist, 'index.html');
+const indexHtml = join(process.env.DIST!, 'index.html');
 
 const createWindow = async () => {
   const mainWindow = new BrowserWindow({
     title: 'Main window',
-    icon: join(ROOT_PATH.public, 'vite.svg'),
+    icon: join(process.env.public!, 'vite.svg'),
     webPreferences: {
       preload,
       contextIsolation: true,

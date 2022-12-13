@@ -2,7 +2,7 @@
   "name": "run-ts",
   "private": true,
   "version": "0.0.1",
-  "main": "dist-electron/main/index.js",
+  "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",

@@ -37,6 +37,6 @@ export default defineConfig({
       }
     : undefined,
   optimizeDeps: {
-    exclude: ['dist-electron/.files.ts'],
+    exclude: ['.files.ts'],
   },
 });
