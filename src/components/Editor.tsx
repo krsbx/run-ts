@@ -2,7 +2,6 @@ import React, { createRef } from 'react';
 import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { EditorView } from '@codemirror/view';
 import { Extension } from '@codemirror/state';
-import { javascript, autoCloseTags } from '@codemirror/lang-javascript';
 import { Box, BoxProps } from '@chakra-ui/react';
 
 const Editor = ({
@@ -36,13 +35,8 @@ const Editor = ({
         basicSetup={{
           defaultKeymap: false,
         }}
-        extensions={[
-          extraExt,
-          javascript({ jsx: true, typescript: true }),
-          autoCloseTags,
-          ...extensions,
-        ]}
-        lang="javascript"
+        extensions={[extraExt, ...extensions]}
+        lang="typescript"
         style={{
           height,
           width,
