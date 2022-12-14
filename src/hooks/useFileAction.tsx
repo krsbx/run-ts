@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import { APP_NAME } from '../utils/constant/global';
 import useAppContext from './useAppContext';
 import useDialogIpcEvent from './useDialogIpcEvent';
 import useAppIpcEvent from './useAppIpcEvent';
@@ -28,7 +27,7 @@ const useFileAction = () => {
     )
       return;
 
-    const content = window[APP_NAME].fs.readFileSync(filePaths[0], 'utf-8');
+    const content = window.fs.readFileSync(filePaths[0], 'utf-8');
     setFilePath(filePath);
     setUserCode(content);
   };
@@ -40,16 +39,16 @@ const useFileAction = () => {
 
     if (canceled || !fileDestPath || _.isEmpty(fileDestPath)) return;
 
-    window[APP_NAME].fs.writeFileSync(fileDestPath, userCode);
+    window.fs.writeFileSync(fileDestPath, userCode);
     setFilePath(fileDestPath);
   };
 
   const saveFile = async () => {
-    if (_.isEmpty(filePath) || !window[APP_NAME].fs.existsSync(filePath)) {
+    if (_.isEmpty(filePath) || !window.fs.existsSync(filePath)) {
       return saveFileAs(getFileDirPath(filePath));
     }
 
-    window[APP_NAME].fs.writeFileSync(filePath, userCode);
+    window.fs.writeFileSync(filePath, userCode);
   };
 
   return {
