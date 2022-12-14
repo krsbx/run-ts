@@ -12,6 +12,7 @@ import {
   tokyoNightStorm,
   duotoneDark,
 } from '@uiw/codemirror-themes-all';
+import { oneDark } from '@codemirror/theme-one-dark';
 
 export const EDITOR_THEME = {
   dark: {
@@ -53,6 +54,11 @@ export const EDITOR_THEME = {
     name: 'Nord',
     theme: nord,
     bgColor: '#2e3440',
+  },
+  oneDark: {
+    name: 'One Dark',
+    theme: oneDark,
+    bgColor: '#282c34',
   },
   okaidia: {
     name: 'Okaidia',

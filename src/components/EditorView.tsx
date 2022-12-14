@@ -1,13 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
 import { Pane } from 'split-pane-react';
-import { emacsStyleKeymap } from '@codemirror/commands';
+import { standardKeymap, historyKeymap } from '@codemirror/commands';
 import { keymap, KeyBinding } from '@codemirror/view';
 import SplitPane from './SplitPane';
 import Editor from './Editor';
 import useAppContext from '../hooks/useAppContext';
 import { chakraColor } from '../utils/theme';
 import { EDITOR_THEME } from '../utils/constant/editor';
+import { extensions } from '../utils/editor/extensions';
 import useFileAction from '../hooks/useFileAction';
 import useUtility from '../hooks/useUtility';
 
@@ -46,7 +47,8 @@ const EditorView = () => {
         return true;
       },
     },
-    ...emacsStyleKeymap,
+    ...standardKeymap,
+    ...historyKeymap,
   ] as KeyBinding[]);
 
   return (
@@ -66,7 +68,7 @@ const EditorView = () => {
         style={{
           borderRight: `2px solid ${chakraColor('gray', '700')}`,
         }}
-        extensions={[keyBinding]}
+        extensions={[extensions, keyBinding]}
       />
       <Pane minSize={'20%'} maxSize={'90%'}>
         <Editor
@@ -80,7 +82,7 @@ const EditorView = () => {
             borderRight: `2px solid ${chakraColor('gray', '700')}`,
             borderTop: `2px solid ${chakraColor('gray', '700')}`,
           }}
-          extensions={[keyBinding]}
+          extensions={[extensions, keyBinding]}
         />
       </Pane>
     </SplitPane>
