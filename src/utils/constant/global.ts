@@ -1,1 +1,1 @@
-export const APP_NAME = 'RUN_TS' as const;
+export const APP_NAME = 'run-ts' as const;

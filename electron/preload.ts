@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import { execAsync, getFileDirPath } from '../src/utils/common';
 import { APP_NAME } from '../src/utils/constant/global';
@@ -9,9 +9,9 @@ import { APP_NAME } from '../src/utils/constant/global';
 
 contextBridge.exposeInMainWorld(APP_NAME, {
   execAsync,
-  fs,
-  path,
-  rootPath: path.join(__dirname, '..'),
-  ipcRenderer,
   getFileDirPath,
 });
+
+contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer);
+contextBridge.exposeInMainWorld('path', path);
+contextBridge.exposeInMainWorld('fs', fs);

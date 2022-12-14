@@ -1,5 +1,5 @@
 import React from 'react';
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import { ipcRenderer } from 'electron';
 import { execAsync, getFileDirPath } from '../utils/common';
@@ -12,11 +12,10 @@ declare global {
     [APP_NAME]: {
       execAsync: typeof execAsync;
       getFileDirPath: typeof getFileDirPath;
-      path: typeof path;
-      fs: typeof fs;
-      rootPath: string;
-      ipcRenderer: typeof ipcRenderer;
     };
+    ipcRenderer: typeof ipcRenderer;
+    path: typeof path;
+    fs: typeof fs;
   }
 
   interface File {

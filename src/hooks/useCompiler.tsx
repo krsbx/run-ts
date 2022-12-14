@@ -11,12 +11,10 @@ const useCompiler = (
 ) => {
   const [result, setResult] = useState('');
 
-  const { getAppPath } = useAppIpcEvent();
+  const { getAppDataPath } = useAppIpcEvent();
 
   useEffect(() => {
     if (userCode.trim() === '') return;
-
-    const { path } = window[APP_NAME];
 
     const timeout = setTimeout(async () => {
       let content = '';
@@ -30,7 +28,7 @@ const useCompiler = (
 
       const result = await compiler(
         content,
-        path.join(getAppPath(), '.files.ts')
+        window.path.join(getAppDataPath(), '.files.ts')
       );
 
       if (!result) return;
