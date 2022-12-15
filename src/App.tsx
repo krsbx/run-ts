@@ -7,12 +7,10 @@ import TopBar from './components/TopBar';
 import EditorView from './components/EditorView';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
-import { EDITOR_THEME } from './utils/constant/editor';
 import useCompiler from './hooks/useCompiler';
-import { extensions, readOnlyMode } from './utils/editor/extensions';
 
 const App = () => {
-  const { sizes, setSizes, userCode, userCodeImport, theme, bgColor } =
+  const { sizes, setSizes, userCode, userCodeImport, bgColor } =
     useAppContext();
   const codeResult = useCompiler(userCode, userCodeImport);
 
@@ -35,11 +33,11 @@ const App = () => {
         </Pane>
         <Editor
           value={codeResult}
-          theme={EDITOR_THEME[theme].theme}
-          fontSize={'22px'}
-          height={'100%'}
-          width={'100%'}
-          extensions={[extensions, readOnlyMode]}
+          fontSize={22}
+          options={{
+            readOnly: true,
+            domReadOnly: true,
+          }}
         />
       </SplitPane>
     </Box>

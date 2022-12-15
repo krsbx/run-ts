@@ -1,55 +1,32 @@
 import React from 'react';
-import _ from 'lodash';
 import { Pane } from 'split-pane-react';
-import { standardKeymap, historyKeymap } from '@codemirror/commands';
-import { keymap, KeyBinding } from '@codemirror/view';
 import SplitPane from './SplitPane';
 import Editor from './Editor';
 import useAppContext from '../hooks/useAppContext';
 import { chakraColor } from '../utils/theme';
-import { EDITOR_THEME } from '../utils/constant/editor';
-import { extensions } from '../utils/editor/extensions';
 import useFileAction from '../hooks/useFileAction';
 import useUtility from '../hooks/useUtility';
+import { EditorProps } from '@monaco-editor/react';
 
 const EditorView = () => {
-  const { codeSizes, setCodeSizes, theme, filePath } = useAppContext();
+  const { codeSizes, setCodeSizes, filePath } = useAppContext();
   const { userCode, setUserCode, userCodeImport, setUserCodeImport } =
     useAppContext();
   const { saveFile, saveFileAs, openFile } = useFileAction();
   const { getFileDirPath } = useUtility();
 
-  const keyBinding = keymap.of([
-    {
-      key: 'Mod-s',
-      preventDefault: true,
-      run: () => {
-        saveFile();
-
-        return true;
-      },
-    },
-    {
-      key: 'Mod-S',
-      preventDefault: true,
-      run: () => {
-        saveFileAs(getFileDirPath(filePath));
-
-        return true;
-      },
-    },
-    {
-      key: 'Mod-o',
-      preventDefault: true,
-      run: () => {
-        openFile(undefined, getFileDirPath(filePath));
-
-        return true;
-      },
-    },
-    ...standardKeymap,
-    ...historyKeymap,
-  ] as KeyBinding[]);
+  const onMount: EditorProps['onMount'] = (editor, monaco) => {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
+      saveFile()
+    );
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyS,
+      () => saveFileAs(getFileDirPath(filePath))
+    );
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, () =>
+      openFile(undefined, getFileDirPath(filePath))
+    );
+  };
 
   return (
     <SplitPane
@@ -61,28 +38,22 @@ const EditorView = () => {
       <Editor
         value={userCodeImport}
         setValue={setUserCodeImport}
-        theme={EDITOR_THEME[theme].theme}
-        fontSize={'22px'}
-        height={'100%'}
-        width={'100%'}
+        fontSize={22}
+        onMount={onMount}
         style={{
           borderRight: `2px solid ${chakraColor('gray', '700')}`,
         }}
-        extensions={[extensions, keyBinding]}
       />
       <Pane minSize={'20%'} maxSize={'90%'}>
         <Editor
           value={userCode}
           setValue={setUserCode}
-          theme={EDITOR_THEME[theme].theme}
-          fontSize={'22px'}
-          height={'100%'}
-          width={'100%'}
+          fontSize={22}
+          onMount={onMount}
           style={{
             borderRight: `2px solid ${chakraColor('gray', '700')}`,
             borderTop: `2px solid ${chakraColor('gray', '700')}`,
           }}
-          extensions={[extensions, keyBinding]}
         />
       </Pane>
     </SplitPane>
