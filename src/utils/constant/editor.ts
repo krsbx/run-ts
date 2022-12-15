@@ -1,88 +1,106 @@
 import {
-  vscodeDark,
-  okaidia,
-  dracula,
-  nord,
-  aura,
-  darcula,
-  githubDark,
-  materialDark,
-  xcodeDark,
-  tokyoNight,
-  tokyoNightStorm,
-  duotoneDark,
-} from '@uiw/codemirror-themes-all';
-import { oneDark } from '@codemirror/theme-one-dark';
+  AllHalowsEve,
+  Amy,
+  Blackboard,
+  Clouds,
+  Dracula,
+  Github,
+  Monokai,
+  NightOwl,
+  Nord,
+  Sunburst,
+  TomorrowNight,
+  TomorrowNightBlue,
+  TomorrowNightBright,
+  TomorrowNightEighties,
+  Twilight,
+  Vibrant,
+} from '../monaco/themes';
 
 export const EDITOR_THEME = {
-  dark: {
+  'vs-dark': {
     name: 'Default',
-    theme: 'dark',
+    theme: 'vs-dark',
     bgColor: '#282c34',
   },
-  aura: {
-    name: 'Aura',
-    theme: aura,
-    bgColor: '#21202e',
+  'all-hallows-eve': {
+    name: 'All Hallows Eve',
+    theme: 'all-hallows-eve',
+    bgColor: AllHalowsEve.colors['editor.background'],
   },
-  darcula: {
-    name: 'Darcula',
-    theme: darcula,
-    bgColor: '#2B2B2B',
+  amy: {
+    name: 'Amy',
+    theme: 'amy',
+    bgColor: Amy.colors['editor.background'],
+  },
+  blackboard: {
+    name: 'Blackboard',
+    theme: 'blackboard',
+    bgColor: Blackboard.colors['editor.background'],
+  },
+  'clouds-midnight': {
+    name: 'Clouds',
+    theme: 'clouds-midnight',
+    bgColor: Clouds.colors['editor.background'],
   },
   dracula: {
     name: 'Dracula',
-    theme: dracula,
-    bgColor: '#282a36',
+    theme: 'dracula',
+    bgColor: Dracula.colors['editor.background'],
   },
-  duotoneDark: {
-    name: 'Duo Tone',
-    theme: duotoneDark,
-    bgColor: '#2a2734',
-  },
-  githubDark: {
+  'github-dark': {
     name: 'Github',
-    theme: githubDark,
-    bgColor: '#0d1117',
+    theme: 'github-dark',
+    bgColor: Github.colors['editor.background'],
   },
-  materialDark: {
-    name: 'Material',
-    theme: materialDark,
-    bgColor: '#2e3235',
+  monokai: {
+    name: 'Monokai',
+    theme: 'monokai',
+    bgColor: Monokai.colors['editor.background'],
+  },
+  'night-owl': {
+    name: 'Night Owl',
+    theme: 'night-owl',
+    bgColor: NightOwl.colors['editor.background'],
   },
   nord: {
     name: 'Nord',
-    theme: nord,
-    bgColor: '#2e3440',
+    theme: 'nord',
+    bgColor: Nord.colors['editor.background'],
   },
-  oneDark: {
-    name: 'One Dark',
-    theme: oneDark,
-    bgColor: '#282c34',
+  sunburst: {
+    name: 'sunburst',
+    theme: 'sunburst',
+    bgColor: Sunburst.colors['editor.background'],
   },
-  okaidia: {
-    name: 'Okaidia',
-    theme: okaidia,
-    bgColor: '#272822',
+  'tomorrow-night-blue': {
+    name: 'Tomorrow Night Blue',
+    theme: 'tomorrow-night-blue',
+    bgColor: TomorrowNightBlue.colors['editor.background'],
   },
-  tokyoNight: {
-    name: 'Tokyo Night',
-    theme: tokyoNight,
-    bgColor: '#1a1b26',
+  'tomorrow-night-bright': {
+    name: 'Tomorrow Night Bright',
+    theme: 'tomorrow-night-bright',
+    bgColor: TomorrowNightBright.colors['editor.background'],
   },
-  tokyoNightStorm: {
-    name: 'Tokyo Night Storm',
-    theme: tokyoNightStorm,
-    bgColor: '#24283b',
+  'tomorrow-night-eighties': {
+    name: 'Tomorrow Night Eighties',
+    theme: 'tomorrow-night-eighties',
+    bgColor: TomorrowNightEighties.colors['editor.background'],
   },
-  vscodeDark: {
-    name: 'VS Code',
-    theme: vscodeDark,
-    bgColor: '#1e1e1e',
+  'tomorrow-night': {
+    name: 'tomorrow-night',
+    theme: 'tomorrow-night',
+    bgColor: TomorrowNight.colors['editor.background'],
   },
-  xcodeDark: {
-    name: 'XCode',
-    theme: xcodeDark,
-    bgColor: '#292A30',
+  twilight: {
+    name: 'Twilight',
+    theme: 'twilight',
+    bgColor: Twilight.colors['editor.background'],
+  },
+  vibrant: {
+    name: 'Vibrant',
+    theme: 'vibrant',
+    bgColor: Vibrant.colors['editor.background'],
   },
 } as const;

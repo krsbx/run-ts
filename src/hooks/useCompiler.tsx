@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { compiler } from '../utils/compiler';
-import { APP_NAME } from '../utils/constant/global';
 import useAppIpcEvent from './useAppIpcEvent';
 
 const useCompiler = (

@@ -13,7 +13,7 @@ import { EDITOR_THEME } from '../../utils/constant/editor';
 import useAppContext from '../../hooks/useAppContext';
 
 const ThemePicker = () => {
-  const { changeTheme } = useAppContext();
+  const { theme: currTheme, changeTheme } = useAppContext();
 
   return (
     <Popover>
@@ -26,10 +26,12 @@ const ThemePicker = () => {
         <PopoverArrow />
         <PopoverBody maxHeight={'40vh'} overflow={'auto'}>
           <Stack spacing={2}>
-            {_.map(EDITOR_THEME, ({ name }, key) => (
+            {_.map(EDITOR_THEME, ({ name, theme }) => (
               <Button
-                onClick={changeTheme(key as keyof typeof EDITOR_THEME)}
-                bgColor={'whiteAlpha.500'}
+                onClick={changeTheme(theme)}
+                bgColor={
+                  currTheme === theme ? 'whiteAlpha.800' : 'whiteAlpha.500'
+                }
                 key={name}
               >
                 {name}

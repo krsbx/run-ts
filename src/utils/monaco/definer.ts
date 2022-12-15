@@ -17,77 +17,72 @@ import {
   TomorrowNightEighties,
   Twilight,
   Vibrant,
-  Xcode,
 } from './themes';
-import { MONACO_THEME } from '../constant/editor';
+import { EDITOR_THEME } from '../constant/editor';
 
 export const defineTheme = (monaco: Monaco) => {
   monaco.editor.defineTheme(
-    MONACO_THEME.amy.theme,
+    EDITOR_THEME.amy.theme,
     Amy as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['all-hallows-eve'].theme,
+    EDITOR_THEME['all-hallows-eve'].theme,
     AllHalowsEve as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.blackboard.theme,
+    EDITOR_THEME.blackboard.theme,
     Blackboard as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.clouds.theme,
+    EDITOR_THEME['clouds-midnight'].theme,
     Clouds as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.dracula.theme,
+    EDITOR_THEME.dracula.theme,
     Dracula as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['github-dark'].theme,
+    EDITOR_THEME['github-dark'].theme,
     Github as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.monokai.theme,
+    EDITOR_THEME.monokai.theme,
     Monokai as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['night-owl'].theme,
+    EDITOR_THEME['night-owl'].theme,
     NightOwl as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.nord.theme,
+    EDITOR_THEME.nord.theme,
     Nord as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.sunburst.theme,
+    EDITOR_THEME.sunburst.theme,
     Sunburst as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['tomorrow-night-blue'].theme,
+    EDITOR_THEME['tomorrow-night-blue'].theme,
     TomorrowNightBlue as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['tomorrow-night-bright'].theme,
+    EDITOR_THEME['tomorrow-night-bright'].theme,
     TomorrowNightBright as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['tomorrow-night-eighties'].theme,
+    EDITOR_THEME['tomorrow-night-eighties'].theme,
     TomorrowNightEighties as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME['tomorrow-night'].theme,
+    EDITOR_THEME['tomorrow-night'].theme,
     TomorrowNight as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.twilight.theme,
+    EDITOR_THEME.twilight.theme,
     Twilight as editor.IStandaloneThemeData
   );
   monaco.editor.defineTheme(
-    MONACO_THEME.xcode.theme,
-    Xcode as editor.IStandaloneThemeData
-  );
-  monaco.editor.defineTheme(
-    MONACO_THEME.vibrant.theme,
+    EDITOR_THEME.vibrant.theme,
     Vibrant as editor.IStandaloneThemeData
   );
 };

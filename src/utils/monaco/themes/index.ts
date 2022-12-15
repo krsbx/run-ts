@@ -13,5 +13,4 @@ export { default as TomorrowNightBright } from './Tomorrow-Night-Bright.json';
 export { default as TomorrowNightEighties } from './Tomorrow-Night-Eighties.json';
 export { default as TomorrowNight } from './Tomorrow-Night.json';
 export { default as Twilight } from './Twilight.json';
-export { default as Xcode } from './Xcode_default.json';
 export { default as Vibrant } from './Vibrant Ink.json';
