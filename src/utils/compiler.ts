@@ -9,7 +9,10 @@ export const compiler = async (content: string, filePath: string) => {
     window.fs.writeFileSync(filePath, content);
 
     const results = await window[APP_NAME].execAsync(
-      `npx ts-node-esm ${filePath}`
+      `npx ts-node-esm ${filePath}`,
+      {
+        cwd: dirPath,
+      }
     );
 
     return results.stdout;

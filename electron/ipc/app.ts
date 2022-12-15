@@ -2,8 +2,7 @@ import os from 'os';
 import path from 'path';
 import { app, ipcMain } from 'electron';
 import { APP_VARIABLE } from '../../src/utils/constant/ipc';
-import { APP_NAME } from '../../src/utils/constant/global';
-import { Platform } from '../../src/utils/constant/ipc';
+import { APP_NAME, Platform } from '../../src/utils/constant/global';
 
 ipcMain.on(
   APP_VARIABLE.PATH,

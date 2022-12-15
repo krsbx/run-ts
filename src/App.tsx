@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
+import GitHubCorners from '@uiw/react-github-corners';
 import { Pane } from 'split-pane-react';
 import useAppContext from './hooks/useAppContext';
 import TopBar from './components/TopBar';
@@ -15,19 +16,14 @@ const App = () => {
   const codeResult = useCompiler(userCode, userCodeImport);
 
   return (
-    <Box
+    <Flex
       width={'100vw'}
       height={'100vh'}
       bgColor={bgColor}
       overflowX={'hidden'}
     >
       <TopBar />
-      <SplitPane
-        split="vertical"
-        sizes={sizes}
-        onChange={setSizes}
-        style={{ height: 'calc(100% - 30px)' }}
-      >
+      <SplitPane split="vertical" sizes={sizes} onChange={setSizes}>
         <Pane minSize={'20%'} maxSize={'80%'}>
           <EditorView />
         </Pane>
@@ -40,7 +36,12 @@ const App = () => {
           }}
         />
       </SplitPane>
-    </Box>
+      <GitHubCorners
+        position="right"
+        bottom
+        href="https://github.com/krsbx/run-ts"
+      />
+    </Flex>
   );
 };
 

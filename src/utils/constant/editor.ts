@@ -21,7 +21,7 @@ export const EDITOR_THEME = {
   'vs-dark': {
     name: 'Default',
     theme: 'vs-dark',
-    bgColor: '#282c34',
+    bgColor: '#1e1e1e',
   },
   'all-hallows-eve': {
     name: 'All Hallows Eve',
@@ -69,7 +69,7 @@ export const EDITOR_THEME = {
     bgColor: Nord.colors['editor.background'],
   },
   sunburst: {
-    name: 'sunburst',
+    name: 'Sunburst',
     theme: 'sunburst',
     bgColor: Sunburst.colors['editor.background'],
   },
@@ -89,7 +89,7 @@ export const EDITOR_THEME = {
     bgColor: TomorrowNightEighties.colors['editor.background'],
   },
   'tomorrow-night': {
-    name: 'tomorrow-night',
+    name: 'Tomorrow Night',
     theme: 'tomorrow-night',
     bgColor: TomorrowNight.colors['editor.background'],
   },

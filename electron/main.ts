@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, globalShortcut, shell } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
 import './ipc';
@@ -60,7 +60,19 @@ const createWindow = async () => {
   // Make all links open with the browser, not with the application
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url);
+    if (url.startsWith('http:')) shell.openExternal(url);
     return { action: 'deny' };
+  });
+
+  // Disable close window
+  app.on('browser-window-focus', () => {
+    globalShortcut.register('CommandOrControl+R', () => {
+      return;
+    });
+  });
+
+  app.on('browser-window-blur', () => {
+    globalShortcut.unregisterAll();
   });
 };
 

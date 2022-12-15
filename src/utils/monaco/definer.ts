@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import {
@@ -20,7 +21,7 @@ import {
 } from './themes';
 import { EDITOR_THEME } from '../constant/editor';
 
-export const defineTheme = (monaco: Monaco) => {
+export const defineTheme = (monaco: Monaco, theme?: string) => {
   monaco.editor.defineTheme(
     EDITOR_THEME.amy.theme,
     Amy as editor.IStandaloneThemeData
@@ -85,4 +86,6 @@ export const defineTheme = (monaco: Monaco) => {
     EDITOR_THEME.vibrant.theme,
     Vibrant as editor.IStandaloneThemeData
   );
+
+  if (!_.isNil(theme) && !_.isEmpty(theme)) monaco.editor.setTheme(theme);
 };

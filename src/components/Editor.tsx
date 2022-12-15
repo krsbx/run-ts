@@ -41,7 +41,7 @@ const Editor = ({
       monacosRef.current.push(monaco);
     }
 
-    defineTheme(monaco);
+    defineTheme(monaco, theme);
 
     if (!modelRef.current) return;
 
