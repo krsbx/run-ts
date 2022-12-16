@@ -23,4 +23,7 @@ declare global {
     size: number;
     type: string;
   }
+
+  type KeyOf<T> = keyof T;
+  type ValueOf<T> = T[KeyOf<T>];
 }

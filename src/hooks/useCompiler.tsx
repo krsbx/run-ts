@@ -1,37 +1,25 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
-import { compiler } from '../utils/compiler';
-import { APP_NAME } from '../utils/constant/global';
 import useAppIpcEvent from './useAppIpcEvent';
+import useUtility from './useUtility';
 
-const useCompiler = (
-  userCode: string,
-  userCodeImport: string,
-  setValue?: ReactSetter<string>
-) => {
+const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
   const [result, setResult] = useState('');
 
   const { getAppDataPath } = useAppIpcEvent();
+  const { compileRun } = useUtility();
 
   useEffect(() => {
-    if (userCode.trim() === '') return;
+    if (content.trim() === '') return;
 
     const timeout = setTimeout(async () => {
-      let content = '';
-
-      if (!_.isEmpty(userCodeImport)) {
-        content += userCodeImport;
-        content += '\n';
-      }
-
-      content += `(async () => {\n${userCode}\n})()`;
-
-      const result = await compiler(
+      const result: string | undefined = await compileRun(
         content,
-        window.path.join(getAppDataPath(), '.files.ts')
+        window.path.join(await getAppDataPath(), '.files.ts'),
+        window.path.join(await getAppDataPath(), 'tsconfig.json')
       );
 
-      if (!result) return;
+      if (_.isNil(result)) return;
 
       setResult(result);
       setValue?.(result);
@@ -40,7 +28,7 @@ const useCompiler = (
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [userCode, userCodeImport]);
+  }, [content]);
 
   return result;
 };

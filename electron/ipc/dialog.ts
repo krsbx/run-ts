@@ -1,9 +1,9 @@
 import { dialog, ipcMain } from 'electron';
 import { SHOW_DIALOG } from '../../src/utils/constant/ipc';
 
-ipcMain.on(SHOW_DIALOG.SAVE, async (event, defaultPath?: string) => {
+ipcMain.handle(SHOW_DIALOG.SAVE, async (event, defaultPath?: string) => {
   try {
-    const result = await dialog.showSaveDialog({
+    return dialog.showSaveDialog({
       title: 'Save File...',
       buttonLabel: 'Save',
       filters: [
@@ -14,8 +14,6 @@ ipcMain.on(SHOW_DIALOG.SAVE, async (event, defaultPath?: string) => {
       ],
       defaultPath,
     });
-
-    return (event.returnValue = result);
   } catch {
     dialog.showErrorBox(
       'Failed to open Browser',
@@ -24,7 +22,7 @@ ipcMain.on(SHOW_DIALOG.SAVE, async (event, defaultPath?: string) => {
   }
 });
 
-ipcMain.on(
+ipcMain.handle(
   SHOW_DIALOG.OPEN,
   async (
     event,
@@ -37,7 +35,7 @@ ipcMain.on(
     }
   ) => {
     try {
-      const result = await dialog.showOpenDialog({
+      return dialog.showOpenDialog({
         title: 'Open File...',
         buttonLabel: 'Open',
         filters: [
@@ -49,8 +47,6 @@ ipcMain.on(
         properties,
         defaultPath,
       });
-
-      return (event.returnValue = result);
     } catch {
       dialog.showErrorBox(
         'Failed to open Browser',
@@ -60,18 +56,16 @@ ipcMain.on(
   }
 );
 
-ipcMain.on(
+ipcMain.handle(
   SHOW_DIALOG.MESSAGE,
   async (event, options: Electron.MessageBoxOptions) => {
     try {
-      const result = await dialog.showMessageBox(options);
-
-      return (event.returnValue = result);
+      return dialog.showMessageBox(options);
     } catch {}
   }
 );
 
-ipcMain.on(
+ipcMain.handle(
   SHOW_DIALOG.ERROR,
   async (event, { title, content }: { title: string; content: string }) => {
     try {

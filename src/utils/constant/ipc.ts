@@ -1,3 +1,5 @@
+import { Platform } from './global';
+
 export const SHOW_DIALOG = {
   ERROR: 'show.error.dialog',
   MESSAGE: 'show.message.dialog',
@@ -12,16 +14,6 @@ export const APP_VARIABLE = {
   APP_DATA: 'get.app.data.path',
 } as const;
 
-export const Platform = {
-  WINDOWS: 'win32',
-  MAC: 'darwin',
-  LINUX: 'linux',
-  SUN: 'sunos',
-  OPENBSD: 'openbsd',
-  ANDROID: 'android',
-  AIX: 'aix',
-} as const;
-
 export const PlatformName = {
   WINDOWS: Platform.WINDOWS,
   MAC: Platform.MAC,
@@ -30,4 +22,14 @@ export const PlatformName = {
   OPENBSD: Platform.OPENBSD,
   ANDROID: Platform.ANDROID,
   AIX: Platform.AIX,
+} as const;
+
+export const READ_WRITE = {
+  COMPILE: 'read-write.compile',
+  COMPILE_RUN: 'read-write.compile-run',
+  RUN: 'read-write.run',
+  READ_FILE: 'read-write.read',
+  READ_JSON_FILE: 'read-write.read.json',
+  WRITE_FILE: 'read-write.write',
+  EXISTS: 'read-write.exits',
 } as const;

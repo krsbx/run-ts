@@ -1,0 +1,14 @@
+{
+  "name": "run-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "krsbx",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}

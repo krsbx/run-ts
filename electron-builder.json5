@@ -11,6 +11,13 @@
     buildResources: 'electron/resources',
   },
   files: ['dist', 'dist-electron'],
+  extraFiles: [
+    {
+      from: 'electron/resources',
+      to: 'resources',
+      filter: ['**/*'],
+    },
+  ],
   win: {
     target: [
       {

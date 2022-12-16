@@ -1,48 +1,75 @@
 import React from 'react';
-import _ from 'lodash';
-import { Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import GitHubCorners from '@uiw/react-github-corners';
 import { Pane } from 'split-pane-react';
 import useAppContext from './hooks/useAppContext';
-import TopBar from './components/TopBar';
-import EditorView from './components/EditorView';
+import TopBar from './components/SideBar';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
-import { EDITOR_THEME } from './utils/constant/editor';
 import useCompiler from './hooks/useCompiler';
-import { extensions, readOnlyMode } from './utils/editor/extensions';
+import useFileAction from './hooks/useFileAction';
+import useUtility from './hooks/useUtility';
+import { EditorProps } from '@monaco-editor/react';
+import { chakraColor } from './utils/theme';
+import usePackageComparator from './hooks/usePackageComparator';
 
 const App = () => {
-  const { sizes, setSizes, userCode, userCodeImport, theme, bgColor } =
-    useAppContext();
-  const codeResult = useCompiler(userCode, userCodeImport);
+  const { sizes, setSizes, userCode, setUserCode } = useAppContext();
+  const { filePath, bgColor } = useAppContext();
+  const codeResult = useCompiler(userCode);
+
+  const { saveFile, saveFileAs, openFile } = useFileAction();
+  const isHasChange = usePackageComparator();
+  const { getFileDirPath } = useUtility();
+
+  const onMount: EditorProps['onMount'] = (editor, monaco) => {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
+      saveFile()
+    );
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyS,
+      () => saveFileAs(getFileDirPath(filePath))
+    );
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, () =>
+      openFile(undefined, getFileDirPath(filePath))
+    );
+  };
 
   return (
-    <Box
+    <Flex
       width={'100vw'}
       height={'100vh'}
       bgColor={bgColor}
       overflowX={'hidden'}
     >
       <TopBar />
-      <SplitPane
-        split="vertical"
-        sizes={sizes}
-        onChange={setSizes}
-        style={{ height: 'calc(100% - 30px)' }}
-      >
+      <SplitPane split="vertical" sizes={sizes} onChange={setSizes}>
         <Pane minSize={'20%'} maxSize={'80%'}>
-          <EditorView />
+          <Editor
+            value={userCode}
+            setValue={setUserCode}
+            fontSize={22}
+            onMount={onMount}
+            style={{
+              borderRight: `1px solid ${chakraColor('gray', '700')}`,
+            }}
+          />
         </Pane>
         <Editor
           value={codeResult}
-          theme={EDITOR_THEME[theme].theme}
-          fontSize={'22px'}
-          height={'100%'}
-          width={'100%'}
-          extensions={[extensions, readOnlyMode]}
+          fontSize={22}
+          options={{
+            readOnly: true,
+            domReadOnly: true,
+          }}
         />
       </SplitPane>
-    </Box>
+      <GitHubCorners
+        position="right"
+        bottom
+        href="https://github.com/krsbx/run-ts"
+      />
+    </Flex>
   );
 };
 

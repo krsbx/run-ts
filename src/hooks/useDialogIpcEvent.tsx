@@ -3,9 +3,10 @@ import { SHOW_DIALOG } from '../utils/constant/ipc';
 
 const useDialogIpcEvent = () => {
   const showSaveDialog = useCallback((defaultPath?: string) => {
-    const result = window.ipcRenderer.sendSync(SHOW_DIALOG.SAVE, defaultPath);
-
-    return result as Electron.SaveDialogReturnValue;
+    return window.ipcRenderer.invoke(
+      SHOW_DIALOG.SAVE,
+      defaultPath
+    ) as Promise<Electron.SaveDialogReturnValue>;
   }, []);
 
   const showOpenDialog = useCallback(
@@ -16,28 +17,27 @@ const useDialogIpcEvent = () => {
       properties: Electron.OpenDialogOptions['properties'];
       defaultPath?: string;
     }) => {
-      const result = window.ipcRenderer.sendSync(SHOW_DIALOG.OPEN, {
+      return window.ipcRenderer.invoke(SHOW_DIALOG.OPEN, {
         properties,
         defaultPath,
-      });
-
-      return result as Electron.OpenDialogReturnValue;
+      }) as Promise<Electron.OpenDialogReturnValue>;
     },
     []
   );
 
   const showMessageDialogBox = useCallback(
     (options: Electron.MessageBoxOptions) => {
-      const result = window.ipcRenderer.sendSync(SHOW_DIALOG.MESSAGE, options);
-
-      return result as Electron.MessageBoxReturnValue;
+      return window.ipcRenderer.invoke(
+        SHOW_DIALOG.MESSAGE,
+        options
+      ) as Promise<Electron.MessageBoxReturnValue>;
     },
     []
   );
 
   const showErrorDialogBox = useCallback(
     (options: { title: string; content: string }) => {
-      window.ipcRenderer.sendSync(SHOW_DIALOG.ERROR, options);
+      window.ipcRenderer.invoke(SHOW_DIALOG.ERROR, options);
     },
     []
   );
