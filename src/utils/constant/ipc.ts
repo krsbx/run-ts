@@ -23,3 +23,13 @@ export const PlatformName = {
   ANDROID: Platform.ANDROID,
   AIX: Platform.AIX,
 } as const;
+
+export const READ_WRITE = {
+  COMPILE: 'read-write.compile',
+  COMPILE_RUN: 'read-write.compile-run',
+  RUN: 'read-write.run',
+  READ_FILE: 'read-write.read',
+  READ_JSON_FILE: 'read-write.read.json',
+  WRITE_FILE: 'read-write.write',
+  EXISTS: 'read-write.exits',
+} as const;

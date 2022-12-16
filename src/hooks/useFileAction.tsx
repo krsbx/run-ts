@@ -4,19 +4,21 @@ import useAppContext from './useAppContext';
 import useDialogIpcEvent from './useDialogIpcEvent';
 import useAppIpcEvent from './useAppIpcEvent';
 import useUtility from './useUtility';
+import useReadWriteIpcEvent from './useReadWriteIpcEvent';
 
 const useFileAction = () => {
   const { userCode, setUserCode, filePath, setFilePath } = useAppContext();
   const { getPath } = useAppIpcEvent();
   const { showOpenDialog, showSaveDialog } = useDialogIpcEvent();
   const { getFileDirPath } = useUtility();
+  const { readFileSync, writeFile, existsSync } = useReadWriteIpcEvent();
 
-  const openFile = (cb?: () => void, defaultPath?: string) => {
+  const openFile = async (cb?: () => void, defaultPath?: string) => {
     cb?.();
 
-    const { canceled, filePaths } = showOpenDialog({
+    const { canceled, filePaths } = await showOpenDialog({
       properties: ['openFile'],
-      defaultPath: _.isEmpty(defaultPath) ? getPath('home') : defaultPath,
+      defaultPath: _.isEmpty(defaultPath) ? await getPath('home') : defaultPath,
     });
 
     if (
@@ -27,28 +29,28 @@ const useFileAction = () => {
     )
       return;
 
-    const content = window.fs.readFileSync(filePaths[0], 'utf-8');
+    const content = readFileSync(filePaths[0]);
     setFilePath(filePath);
     setUserCode(content);
   };
 
-  const saveFileAs = (defaultPath?: string) => {
-    const { canceled, filePath: fileDestPath } = showSaveDialog(
-      _.isEmpty(defaultPath) ? getPath('home') : defaultPath
+  const saveFileAs = async (defaultPath?: string) => {
+    const { canceled, filePath: fileDestPath } = await showSaveDialog(
+      _.isEmpty(defaultPath) ? await getPath('home') : defaultPath
     );
 
     if (canceled || !fileDestPath || _.isEmpty(fileDestPath)) return;
 
-    window.fs.writeFileSync(fileDestPath, userCode);
+    writeFile(fileDestPath, userCode);
     setFilePath(fileDestPath);
   };
 
   const saveFile = async () => {
-    if (_.isEmpty(filePath) || !window.fs.existsSync(filePath)) {
+    if (_.isEmpty(filePath) || !existsSync(filePath)) {
       return saveFileAs(getFileDirPath(filePath));
     }
 
-    window.fs.writeFileSync(filePath, userCode);
+    await writeFile(filePath, userCode);
   };
 
   return {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import {
   Button,
@@ -11,28 +11,29 @@ import {
   ModalHeader,
   Text,
   Stack,
+  Grid,
+  GridItem,
+  Checkbox,
 } from '@chakra-ui/react';
-import { PackageJson } from 'type-fest';
 import { FiSettings } from 'react-icons/fi';
-import useUtility from '../../hooks/useUtility';
-import useAppIpcEvent from '../../hooks/useAppIpcEvent';
+import useAppContext from '../../hooks/useAppContext';
+import usePackageJsonReader from '../../hooks/usePackageJsonReader';
 
 const SettingsMenu = () => {
-  const { readJsonFile } = useUtility();
-  const { getAppDataPath } = useAppIpcEvent();
+  const { packageJson, setPackageJson } = useAppContext();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [pkgJson, setPkgJson] = useState<PackageJson>({});
+  const jsonReader = usePackageJsonReader();
 
   const showModal = async () => {
     try {
-      const pkgJson: PackageJson = await readJsonFile(
-        window.path.join(getAppDataPath(), 'package.json')
-      );
+      const pkgJson = await jsonReader();
 
-      setPkgJson(pkgJson);
+      setPackageJson(pkgJson?.devDependencies ?? {});
 
       onOpen();
-    } catch {}
+    } catch {
+      setPackageJson({});
+    }
   };
 
   return (
@@ -57,10 +58,21 @@ const SettingsMenu = () => {
           </ModalHeader>
           <ModalBody>
             <Stack width={'100%'} px={1} py={1}>
-              {_.map(pkgJson.devDependencies ?? {}, (version, name) => (
-                <Text key={`${name}@${version}`} color={'whiteAlpha.700'}>
-                  {name}@{version}
-                </Text>
+              {_.map(packageJson ?? {}, (version, name) => (
+                <Grid
+                  templateColumns={'repeat(2, 1fr)'}
+                  gap={1}
+                  key={`${name}@${version}`}
+                >
+                  <GridItem px={1}>
+                    <Text color={'whiteAlpha.700'}>
+                      {name}@{version}
+                    </Text>
+                  </GridItem>
+                  <GridItem px={1} display={'flex'} justifyContent={'flex-end'}>
+                    <Checkbox borderRadius={'lg'} />
+                  </GridItem>
+                </Grid>
               ))}
             </Stack>
           </ModalBody>

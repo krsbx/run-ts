@@ -2,21 +2,21 @@ import { app, ipcMain } from 'electron';
 import { APP_VARIABLE } from '../../src/utils/constant/ipc';
 import { getAppDataPath } from '../../src/utils/common';
 
-ipcMain.on(
+ipcMain.handle(
   APP_VARIABLE.PATH,
   (event, type: Parameters<typeof app.getPath>[0]) => {
-    event.returnValue = app.getPath(type);
+    return app.getPath(type);
   }
 );
 
-ipcMain.on(APP_VARIABLE.APP_PATH, (event) => {
-  event.returnValue = app.getAppPath();
+ipcMain.handle(APP_VARIABLE.APP_PATH, (event) => {
+  return app.getAppPath();
 });
 
-ipcMain.on(APP_VARIABLE.IS_PACKAGED, (event) => {
-  event.returnValue = app.isPackaged;
+ipcMain.handle(APP_VARIABLE.IS_PACKAGED, (event) => {
+  return app.isPackaged;
 });
 
-ipcMain.on(APP_VARIABLE.APP_DATA, (event) => {
-  event.returnValue = getAppDataPath();
+ipcMain.handle(APP_VARIABLE.APP_DATA, (event) => {
+  return getAppDataPath();
 });

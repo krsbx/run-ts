@@ -11,6 +11,7 @@ import useFileAction from './hooks/useFileAction';
 import useUtility from './hooks/useUtility';
 import { EditorProps } from '@monaco-editor/react';
 import { chakraColor } from './utils/theme';
+import usePackageComparator from './hooks/usePackageComparator';
 
 const App = () => {
   const { sizes, setSizes, userCode, setUserCode } = useAppContext();
@@ -18,6 +19,7 @@ const App = () => {
   const codeResult = useCompiler(userCode);
 
   const { saveFile, saveFileAs, openFile } = useFileAction();
+  const isHasChange = usePackageComparator();
   const { getFileDirPath } = useUtility();
 
   const onMount: EditorProps['onMount'] = (editor, monaco) => {

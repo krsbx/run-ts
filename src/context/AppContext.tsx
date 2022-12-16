@@ -3,6 +3,7 @@ import { Monaco } from '@monaco-editor/react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { EDITOR_THEME } from '../utils/constant/editor';
 import { LOCAL_STORAGE_KEY } from '../utils/constant/global';
+import { PackageJson } from 'type-fest';
 
 type ContextProps = {
   sizes: number[];
@@ -17,6 +18,8 @@ type ContextProps = {
   setFilePath: ReactSetter<string>;
   monacosRef: React.MutableRefObject<Monaco[]>;
   changeTheme: (theme: KeyOf<typeof EDITOR_THEME>) => () => void;
+  packageJson: PackageJson['devDependencies'];
+  setPackageJson: ReactSetter<PackageJson['devDependencies']>;
 };
 
 export const AppContext = React.createContext<ContextProps>({} as ContextProps);
@@ -43,6 +46,9 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
     LOCAL_STORAGE_KEY.USER_CODE,
     ''
   );
+  const [packageJson, setPackageJson] = useLocalStorage<
+    PackageJson['devDependencies']
+  >(LOCAL_STORAGE_KEY.PACKAGE_JSON, {});
 
   const changeTheme = (theme: KeyOf<typeof EDITOR_THEME>) => () =>
     setTheme((curr) => {
@@ -76,6 +82,8 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
         setBgColor,
         userCode,
         setUserCode,
+        packageJson,
+        setPackageJson,
         filePath,
         setFilePath,
         changeTheme,
