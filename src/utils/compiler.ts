@@ -1,6 +1,11 @@
+import _ from 'lodash';
 import { APP_NAME } from './constant/global';
 
-export const compiler = async (content: string, filePath: string) => {
+export const compiler = async (
+  content: string,
+  filePath: string,
+  configPath: string = ''
+) => {
   try {
     const dirPath = window[APP_NAME].getFileDirPath(filePath);
 
@@ -8,12 +13,14 @@ export const compiler = async (content: string, filePath: string) => {
 
     window.fs.writeFileSync(filePath, content);
 
-    const results = await window[APP_NAME].execAsync(
-      `npx ts-node-esm ${filePath}`,
-      {
-        cwd: dirPath,
-      }
-    );
+    let command = 'npx ts-node-esm';
+
+    if (!_.isEmpty(configPath)) command += ` --project ${configPath}`;
+    command += ` ${filePath}`;
+
+    const results = await window[APP_NAME].execAsync(command, {
+      cwd: dirPath,
+    });
 
     return results.stdout;
   } catch {

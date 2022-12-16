@@ -1,6 +1,7 @@
-import { app, BrowserWindow, globalShortcut, shell } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
+import { setupPackageJson, setupTsConfig } from './main/setup';
 import './ipc';
 
 const DIST_PATH = join(__dirname, '../dist');
@@ -42,10 +43,14 @@ const createWindow = async () => {
     },
   });
 
-  if (app.isPackaged) mainWindow.loadFile(indexHtml);
-  else mainWindow.loadURL(url);
+  if (app.isPackaged) {
+    mainWindow.loadFile(indexHtml);
+  } else {
+    mainWindow.loadURL(url);
+    mainWindow.webContents.openDevTools();
+  }
 
-  if (!app.isPackaged) mainWindow.webContents.openDevTools();
+  await Promise.all([setupPackageJson(), setupTsConfig()]);
 
   mainWindow.menuBarVisible = false;
 
@@ -62,17 +67,6 @@ const createWindow = async () => {
     if (url.startsWith('https:')) shell.openExternal(url);
     if (url.startsWith('http:')) shell.openExternal(url);
     return { action: 'deny' };
-  });
-
-  // Disable close window
-  app.on('browser-window-focus', () => {
-    globalShortcut.register('CommandOrControl+R', () => {
-      return;
-    });
-  });
-
-  app.on('browser-window-blur', () => {
-    globalShortcut.unregisterAll();
   });
 };
 

@@ -3,31 +3,19 @@ import { useEffect, useState } from 'react';
 import { compiler } from '../utils/compiler';
 import useAppIpcEvent from './useAppIpcEvent';
 
-const useCompiler = (
-  userCode: string,
-  userCodeImport: string,
-  setValue?: ReactSetter<string>
-) => {
+const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
   const [result, setResult] = useState('');
 
   const { getAppDataPath } = useAppIpcEvent();
 
   useEffect(() => {
-    if (userCode.trim() === '') return;
+    if (content.trim() === '') return;
 
     const timeout = setTimeout(async () => {
-      let content = '';
-
-      if (!_.isEmpty(userCodeImport)) {
-        content += userCodeImport;
-        content += '\n';
-      }
-
-      content += `(async () => {\n${userCode}\n})()`;
-
       const result = await compiler(
         content,
-        window.path.join(getAppDataPath(), '.files.ts')
+        window.path.join(getAppDataPath(), '.files.ts'),
+        window.path.join(getAppDataPath(), 'tsconfig.json')
       );
 
       if (!result) return;
@@ -39,7 +27,7 @@ const useCompiler = (
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [userCode, userCodeImport]);
+  }, [content]);
 
   return result;
 };

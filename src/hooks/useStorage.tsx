@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-
-const STORAGE_KEYS_PREFIX = 'RUN_TS_';
+import { APP_NAME } from '../utils/constant/global';
 
 const useStorage =
-  (storage: Storage, keyPrefix = STORAGE_KEYS_PREFIX) =>
+  (storage: Storage, keyPrefix = `${APP_NAME}-`) =>
   <T,>(storageKey: string, defaultValue: T): [T, ReactSetter<T>] => {
     const storedString = storage.getItem(keyPrefix + storageKey);
     let parsedObject = null;
