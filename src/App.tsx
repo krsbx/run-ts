@@ -59,6 +59,7 @@ const App = () => {
         <Editor
           value={codeResult}
           fontSize={22}
+          language={'bash'}
           options={{
             readOnly: true,
             domReadOnly: true,

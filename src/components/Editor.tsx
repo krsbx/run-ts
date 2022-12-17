@@ -50,7 +50,7 @@ const Editor = ({
   };
 
   const onChange: EditorProps['onChange'] = (value) => {
-    if (!value) return;
+    if (typeof value === 'undefined') return;
 
     setValue?.(value);
   };

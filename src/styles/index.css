@@ -63,3 +63,19 @@ body.react-split--disabled {
 .split-sash-content.split-sash-content-vscode.split-sash-content-active {
   background-color: rgba(255, 255, 255, 0.2);
 }
+
+#tab-container::-webkit-scrollbar-track-piece:start,
+#tab-container::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+}
+
+#tab-container::-webkit-scrollbar {
+  width: 0.3rem;
+  height: 0.3rem;
+}
+
+#tab-container::-webkit-scrollbar-thumb {
+  background-color: var(--chakra-colors-whiteAlpha-600);
+  border-radius: 10rem;
+  opacity: 0.2;
+}
