@@ -4,13 +4,12 @@ import useStorageIpcEvent from './useStorageIpcEvent';
 
 const useJsonStorage = <T extends object>(
   storageKey: string,
-  defaultValue: T,
   keyPrefix = `${APP_NAME}-`
 ): [T, ReactSetter<T>] => {
   const { getItem, setItem } = useStorageIpcEvent();
 
   const storedData = getItem(keyPrefix + storageKey) as T;
-  const [value, setValue] = useState<T>(storedData ?? defaultValue);
+  const [value, setValue] = useState<T>(storedData);
 
   useEffect(() => {
     if (typeof value === 'undefined') return;

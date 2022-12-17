@@ -11,7 +11,10 @@ const TabContainer = ({ menuHeight }: Props) => {
 
   const [isMouseDownOnUp, setIsMouseDownOnUp] = useState(false);
   const [isMouseDownOnDown, setIsMouseDownOnDown] = useState(false);
-  const { codes, addNewCode } = useFileContext();
+  const [isMoveUpDisabled, setIsMoveUpDisabled] = useState(false);
+  const [isMoveDownDisabled, setIsMoveDownDisabled] = useState(false);
+
+  const { codes, addNewCode, codeTotal } = useFileContext();
 
   const moveTabs = useCallback(
     (offset: number) => {
@@ -31,6 +34,7 @@ const TabContainer = ({ menuHeight }: Props) => {
       spacing={2}
       height={`calc(100vh - calc(${menuHeight}px + 60px))`}
       justifyContent={'flex-start'}
+      py={2}
     >
       <Button
         bgColor={'whiteAlpha.300'}
@@ -41,6 +45,7 @@ const TabContainer = ({ menuHeight }: Props) => {
         color={'gray.300'}
         onMouseDown={() => setIsMouseDownOnUp(true)}
         onMouseUp={() => setIsMouseDownOnUp(false)}
+        disabled={isMoveUpDisabled}
       >
         <FaChevronUp size={'25px'} />
       </Button>
@@ -48,6 +53,7 @@ const TabContainer = ({ menuHeight }: Props) => {
         spacing={2}
         justifyContent={'flex-start'}
         scrollBehavior={'smooth'}
+        height={`100%`}
         overflow={'auto'}
         id={'tab-container'}
         ref={tabContainerRef}
@@ -57,6 +63,8 @@ const TabContainer = ({ menuHeight }: Props) => {
             key={`code-${index}`}
             containerRef={tabContainerRef}
             index={Number(index)}
+            setIsMoveUpDisabled={setIsMoveUpDisabled}
+            setIsMoveDownDisabled={setIsMoveDownDisabled}
           />
         ))}
       </Stack>
@@ -69,6 +77,7 @@ const TabContainer = ({ menuHeight }: Props) => {
         color={'gray.300'}
         onMouseDown={() => setIsMouseDownOnDown(true)}
         onMouseUp={() => setIsMouseDownOnDown(false)}
+        disabled={isMoveDownDisabled}
       >
         <FaChevronDown size={'25px'} />
       </Button>
@@ -80,6 +89,7 @@ const TabContainer = ({ menuHeight }: Props) => {
         onClick={addNewCode}
         p={1}
         color={'gray.300'}
+        disabled={codeTotal >= 15}
       >
         <FiPlus size={'25px'} />
       </Button>
