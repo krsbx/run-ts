@@ -1,13 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
-import useAppContext from './useAppContext';
+import useFileContext from './useContext/useFileContext';
 import useDialogIpcEvent from './useDialogIpcEvent';
 import useAppIpcEvent from './useAppIpcEvent';
 import useUtility from './useUtility';
 import useReadWriteIpcEvent from './useReadWriteIpcEvent';
 
 const useFileAction = () => {
-  const { userCode, setUserCode, filePath, setFilePath } = useAppContext();
+  const { userCode, setUserCode, filePath, setFilePath } = useFileContext();
   const { getPath } = useAppIpcEvent();
   const { showOpenDialog, showSaveDialog } = useDialogIpcEvent();
   const { getFileDirPath } = useUtility();

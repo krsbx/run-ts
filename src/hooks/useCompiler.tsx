@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
-import useAppContext from './useAppContext';
+import useSettingContext from './useContext/useSettingContext';
 import useAppIpcEvent from './useAppIpcEvent';
 import useDialogIpcEvent from './useDialogIpcEvent';
 import useUtility from './useUtility';
@@ -8,9 +8,7 @@ import useUtility from './useUtility';
 const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
   const [result, setResult] = useState('');
 
-  const {
-    settings: { onOpen },
-  } = useAppContext();
+  const { onOpen, setPackageToAdd } = useSettingContext();
   const { getAppDataPath } = useAppIpcEvent();
   const { showMessageDialogBox } = useDialogIpcEvent();
   const { compileRun } = useUtility();
@@ -39,11 +37,15 @@ const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
             detail: `Please install this packages from settings \n${_.map(
               error.message,
               (msg) => msg.declaration
-            )}`,
+            ).join(',')}`,
             type: 'error',
           });
 
           onOpen();
+
+          setPackageToAdd(
+            _.map(error.message, (msg) => msg.declaration).join(' ')
+          );
         }
 
         return;

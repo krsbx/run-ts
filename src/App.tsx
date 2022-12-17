@@ -1,21 +1,22 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import GitHubCorners from '@uiw/react-github-corners';
+import { EditorProps } from '@monaco-editor/react';
 import { Pane } from 'split-pane-react';
-import useAppContext from './hooks/useAppContext';
+import useEditorContext from './hooks/useContext/useEditorContext';
+import useFileContext from './hooks/useContext/useFileContext';
 import TopBar from './components/SideBar';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
 import useCompiler from './hooks/useCompiler';
 import useFileAction from './hooks/useFileAction';
 import useUtility from './hooks/useUtility';
-import { EditorProps } from '@monaco-editor/react';
 import { chakraColor } from './utils/theme';
 import usePackageComparator from './hooks/usePackageComparator';
 
 const App = () => {
-  const { sizes, setSizes, userCode, setUserCode } = useAppContext();
-  const { filePath, bgColor } = useAppContext();
+  const { sizes, setSizes, bgColor } = useEditorContext();
+  const { filePath, userCode, setUserCode } = useFileContext();
   const codeResult = useCompiler(userCode);
 
   const { saveFile, saveFileAs, openFile } = useFileAction();

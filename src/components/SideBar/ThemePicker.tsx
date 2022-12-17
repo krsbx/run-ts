@@ -11,10 +11,10 @@ import {
 } from '@chakra-ui/react';
 import { GiPaintRoller } from 'react-icons/gi';
 import { EDITOR_THEME } from '../../utils/constant/editor';
-import useAppContext from '../../hooks/useAppContext';
+import useEditorContext from '../../hooks/useContext/useEditorContext';
 
 const ThemePicker = () => {
-  const { theme: currTheme, changeTheme } = useAppContext();
+  const { theme: currTheme, changeTheme } = useEditorContext();
 
   return (
     <Popover placement="right">

@@ -24,7 +24,7 @@ import { PackageJson } from 'type-fest';
 import { FaTimes } from 'react-icons/fa';
 import useUtility from '../../hooks/useUtility';
 import useAppIpcEvent from '../../hooks/useAppIpcEvent';
-import useAppContext from '../../hooks/useAppContext';
+import useSettingContext from '../../hooks/useContext/useSettingContext';
 import usePackageJsonReader from '../../hooks/usePackageJsonReader';
 import useDialogIpcEvent from '../../hooks/useDialogIpcEvent';
 
@@ -37,7 +37,7 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const forceUpdate = useForceUpdate();
-  const { setPackageJson } = useAppContext();
+  const { setPackageJson, packageToAdd, setPackageToAdd } = useSettingContext();
   const { installPackages, uninstallPackages } = useUtility();
   const { showMessageDialogBox } = useDialogIpcEvent();
   const { getAppDataPath } = useAppIpcEvent();
@@ -48,6 +48,13 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
     setToAddPackages([]);
     setRemovedPackages([]);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (_.isEmpty(packageToAdd) || !isOpen) return;
+
+    setPackageName(packageToAdd);
+    setPackageToAdd('');
+  }, [packageToAdd, isOpen]);
 
   const dropPackage = (name: string) => {
     setRemovedPackages((curr) => {

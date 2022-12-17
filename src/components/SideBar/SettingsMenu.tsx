@@ -2,16 +2,13 @@ import React from 'react';
 import _ from 'lodash';
 import { Button } from '@chakra-ui/react';
 import { FiSettings } from 'react-icons/fi';
-import useAppContext from '../../hooks/useAppContext';
+import useSettingContext from '../../hooks/useContext/useSettingContext';
 import usePackageJsonReader from '../../hooks/usePackageJsonReader';
 import Settings from '../Modal/Settings';
 
 const SettingsMenu = () => {
-  const {
-    packageJson,
-    setPackageJson,
-    settings: { isOpen, onClose, onOpen },
-  } = useAppContext();
+  const { packageJson, setPackageJson } = useSettingContext();
+  const { isOpen, onClose, onOpen } = useSettingContext();
   const jsonReader = usePackageJsonReader();
 
   const showModal = async () => {
