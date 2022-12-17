@@ -9,9 +9,10 @@ const usePackageComparator = () => {
 
   useEffect(() => {
     jsonReader().then((pkg) => {
-      const isHasChange =
-        Object.values(pkg.devDependencies ?? {}).length !==
-        Object.values(packageJson ?? {}).length;
+      const newerDevDeop = Object.keys(pkg.devDependencies ?? {});
+      const olderDevDep = Object.keys(packageJson ?? {});
+
+      const isHasChange = newerDevDeop.length !== olderDevDep.length;
 
       setIsHasChange(isHasChange);
     });

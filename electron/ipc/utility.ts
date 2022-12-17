@@ -47,3 +47,9 @@ ipcMain.handle(
     });
   }
 );
+
+ipcMain.handle(UTILITY.SYNCHRONIZE_PACKAGE, async (event, cwd: string) => {
+  return execAsync(`npm i`, {
+    cwd,
+  });
+});

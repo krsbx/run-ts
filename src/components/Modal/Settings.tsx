@@ -146,7 +146,10 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
     >
       <ModalOverlay />
       <ModalContent bgColor={'gray.800'}>
-        <ModalCloseButton color={'whiteAlpha.800'} onClick={onClose} />
+        <ModalCloseButton
+          color={'whiteAlpha.800'}
+          {...(!isProcessing && { onClick: onClose })}
+        />
         <ModalHeader>
           <Text color={'whiteAlpha.800'}>Package Manager</Text>
         </ModalHeader>
