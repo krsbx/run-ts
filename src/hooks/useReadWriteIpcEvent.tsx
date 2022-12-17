@@ -11,37 +11,37 @@ const useReadWriteIpcEvent = () => {
     ) as Promise<JsonObject>;
   }, []);
 
-  const readFileSync = useCallback(
+  const readFile = useCallback(
     (filePath: string, encoding: EncodingOption = 'utf-8') => {
-      const content: string = window.ipcRenderer.sendSync(
+      return window.ipcRenderer.invoke(
         READ_WRITE.READ_FILE,
         filePath,
         encoding
-      );
-
-      return content;
+      ) as Promise<string>;
     },
     []
   );
 
   const writeFile = useCallback((filePath: string, content: string) => {
-    return window.ipcRenderer.invoke(READ_WRITE.WRITE_FILE, filePath, content);
+    return window.ipcRenderer.invoke(
+      READ_WRITE.WRITE_FILE,
+      filePath,
+      content
+    ) as Promise<void>;
   }, []);
 
-  const existsSync = useCallback((filePath: string) => {
-    const isExist: boolean = window.ipcRenderer.sendSync(
+  const exists = useCallback((filePath: string) => {
+    return window.ipcRenderer.invoke(
       READ_WRITE.EXISTS,
       filePath
-    );
-
-    return isExist;
+    ) as Promise<boolean>;
   }, []);
 
   return {
     readJsonFile,
-    readFileSync,
+    readFile,
     writeFile,
-    existsSync,
+    exists,
   };
 };
 

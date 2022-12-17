@@ -11,7 +11,7 @@ const useFileAction = () => {
   const { getPath } = useAppIpcEvent();
   const { showOpenDialog, showSaveDialog } = useDialogIpcEvent();
   const { getFileDirPath } = useUtility();
-  const { readFileSync, writeFile, existsSync } = useReadWriteIpcEvent();
+  const { readFile, writeFile, exists } = useReadWriteIpcEvent();
 
   const openFile = async (cb?: () => void, defaultPath?: string) => {
     cb?.();
@@ -29,8 +29,9 @@ const useFileAction = () => {
     )
       return;
 
-    const content = readFileSync(filePaths[0]);
-    setFilePath(filePath);
+    const content = await readFile(filePaths[0]);
+
+    setFilePath(filePaths[0]);
     setUserCode(content);
   };
 
@@ -46,7 +47,7 @@ const useFileAction = () => {
   };
 
   const saveFile = async () => {
-    if (_.isEmpty(filePath) || !existsSync(filePath)) {
+    if (_.isEmpty(filePath) || !(await exists(filePath))) {
       return saveFileAs(getFileDirPath(filePath));
     }
 
