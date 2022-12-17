@@ -7,7 +7,8 @@ import useUtility from './useUtility';
 import useReadWriteIpcEvent from './useReadWriteIpcEvent';
 
 const useFileAction = () => {
-  const { userCode, setUserCode, filePath, setFilePath } = useFileContext();
+  const { codes, setCodes, filePath, setFilePath, codeIndex } =
+    useFileContext();
   const { getPath } = useAppIpcEvent();
   const { showOpenDialog, showSaveDialog } = useDialogIpcEvent();
   const { getFileDirPath } = useUtility();
@@ -32,7 +33,11 @@ const useFileAction = () => {
     const content = await readFile(filePaths[0]);
 
     setFilePath(filePaths[0]);
-    setUserCode(content);
+    setCodes((curr) => {
+      curr[codeIndex] = content;
+
+      return [...curr];
+    });
   };
 
   const saveFileAs = async (defaultPath?: string) => {
@@ -42,7 +47,7 @@ const useFileAction = () => {
 
     if (canceled || !fileDestPath || _.isEmpty(fileDestPath)) return;
 
-    writeFile(fileDestPath, userCode);
+    writeFile(fileDestPath, codes[codeIndex]);
     setFilePath(fileDestPath);
   };
 
@@ -51,7 +56,7 @@ const useFileAction = () => {
       return saveFileAs(await getFileDirPath(filePath));
     }
 
-    await writeFile(filePath, userCode);
+    await writeFile(filePath, codes[codeIndex]);
   };
 
   return {

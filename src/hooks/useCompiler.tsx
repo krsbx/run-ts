@@ -4,6 +4,7 @@ import useSettingContext from './useContext/useSettingContext';
 import useAppIpcEvent from './useAppIpcEvent';
 import useDialogIpcEvent from './useDialogIpcEvent';
 import useUtility from './useUtility';
+import useFileContext from './useContext/useFileContext';
 
 const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
   const [result, setResult] = useState('');
@@ -11,6 +12,7 @@ const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
   const { onOpen, setPackageToAdd } = useSettingContext();
   const { getAppDataPath } = useAppIpcEvent();
   const { showMessageDialogBox } = useDialogIpcEvent();
+  const { codeIndex } = useFileContext();
   const { compileRun } = useUtility();
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
     const timeout = setTimeout(async () => {
       let result = await compileRun(
         content,
-        window.path.join(await getAppDataPath(), '.files.ts'),
+        window.path.join(await getAppDataPath(), `.files-${codeIndex}.ts`),
         window.path.join(await getAppDataPath(), 'tsconfig.json')
       );
 

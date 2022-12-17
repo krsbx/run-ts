@@ -16,8 +16,8 @@ import usePackageComparator from './hooks/usePackageComparator';
 
 const App = () => {
   const { sizes, setSizes, bgColor } = useEditorContext();
-  const { filePath, userCode, setUserCode } = useFileContext();
-  const codeResult = useCompiler(userCode);
+  const { filePath, codes, updateCode, codeIndex } = useFileContext();
+  const codeResult = useCompiler(codes[codeIndex]);
 
   const { saveFile, saveFileAs, openFile } = useFileAction();
   const isHasChange = usePackageComparator();
@@ -47,8 +47,8 @@ const App = () => {
       <SplitPane split="vertical" sizes={sizes} onChange={setSizes}>
         <Pane minSize={'20%'} maxSize={'80%'}>
           <Editor
-            value={userCode}
-            setValue={setUserCode}
+            value={codes[codeIndex]}
+            setValue={updateCode}
             fontSize={22}
             onMount={onMount}
             style={{

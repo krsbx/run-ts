@@ -18,7 +18,6 @@ import {
   InputRightElement,
   chakra,
   Box,
-  useForceUpdate,
 } from '@chakra-ui/react';
 import { PackageJson } from 'type-fest';
 import { FaTimes } from 'react-icons/fa';
@@ -36,7 +35,6 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
   const [toAddPackages, setToAddPackages] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const forceUpdate = useForceUpdate();
   const { setPackageJson, packageToAdd, setPackageToAdd } = useSettingContext();
   const { installPackages, uninstallPackages } = useUtility();
   const { showMessageDialogBox } = useDialogIpcEvent();
@@ -56,7 +54,7 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
     setPackageToAdd('');
   }, [packageToAdd, isOpen]);
 
-  const dropPackage = (name: string) => {
+  const dropPackage = (name: string) =>
     setRemovedPackages((curr) => {
       const index = curr.findIndex((pkgName) => pkgName === name);
 
@@ -66,13 +64,10 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
         curr.splice(index, 1);
       }
 
-      return curr;
+      return [...curr];
     });
 
-    forceUpdate();
-  };
-
-  const addPackage = () => {
+  const addPackage = () =>
     setToAddPackages((curr) => {
       if (_.isEmpty(curr)) curr = [];
       const names = packageName.split(' ');
@@ -89,22 +84,17 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
 
       setPackageName('');
 
-      return curr;
+      return [...curr];
     });
 
-    forceUpdate();
-  };
-
-  const removePackage = (name: string) => {
+  const removePackage = (name: string) =>
     setToAddPackages((curr) => {
       const index = curr.findIndex((pkgName) => pkgName === name);
 
       if (index !== -1) curr.splice(index, 1);
 
-      return curr;
+      return [...curr];
     });
-    forceUpdate();
-  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

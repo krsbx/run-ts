@@ -77,7 +77,7 @@ const Editor = ({
 
 type Props = {
   value: string;
-  setValue?: ReactSetter<string>;
+  setValue?: (value: string) => void;
   fontSize?: number;
   onMount?: EditorProps['onMount'];
   language?: string;
