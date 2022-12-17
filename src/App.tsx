@@ -28,10 +28,10 @@ const App = () => {
     );
     editor.addCommand(
       monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyS,
-      () => saveFileAs(getFileDirPath(filePath))
+      async () => saveFileAs(await getFileDirPath(filePath))
     );
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, () =>
-      openFile(undefined, getFileDirPath(filePath))
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, async () =>
+      openFile(undefined, await getFileDirPath(filePath))
     );
   };
 

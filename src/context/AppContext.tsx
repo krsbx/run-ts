@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useDisclosure } from '@chakra-ui/react';
 import { Monaco } from '@monaco-editor/react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { EDITOR_THEME } from '../utils/constant/editor';
@@ -20,12 +21,14 @@ type ContextProps = {
   changeTheme: (theme: KeyOf<typeof EDITOR_THEME>) => () => void;
   packageJson: PackageJson['devDependencies'];
   setPackageJson: ReactSetter<PackageJson['devDependencies']>;
+  settings: ReturnType<typeof useDisclosure>;
 };
 
 export const AppContext = React.createContext<ContextProps>({} as ContextProps);
 
 const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
   const monacosRef = useRef<Monaco[]>([]);
+  const settingsModal = useDisclosure();
   const [filePath, setFilePath] = useLocalStorage<string>(
     LOCAL_STORAGE_KEY.FILE_PATH,
     ''
@@ -88,6 +91,7 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
         setFilePath,
         changeTheme,
         monacosRef,
+        settings: settingsModal,
       }}
     >
       {children}

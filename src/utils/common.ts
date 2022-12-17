@@ -1,5 +1,7 @@
 import os from 'os';
 import path from 'path';
+import _ from 'lodash';
+import npmName from 'npm-name';
 import { app } from 'electron';
 import { promisify } from 'util';
 import { exec } from 'child_process';
@@ -25,4 +27,17 @@ export const getAppDataPath = () => {
     default:
       return app.getAppPath();
   }
+};
+
+export const checkPackageExist = async (packageName: string) => {
+  const splitByAt = _.compact(packageName.split('@'));
+
+  const isWithOrgs = packageName.startsWith('@');
+  const isHasVersion = splitByAt.length === 2;
+
+  if (isHasVersion) splitByAt.pop();
+
+  const pkgName = `${isWithOrgs ? '@' : ''}${splitByAt.join('@')}`;
+
+  return !(await npmName(pkgName));
 };

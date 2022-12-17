@@ -48,7 +48,7 @@ const useFileAction = () => {
 
   const saveFile = async () => {
     if (_.isEmpty(filePath) || !(await exists(filePath))) {
-      return saveFileAs(getFileDirPath(filePath));
+      return saveFileAs(await getFileDirPath(filePath));
     }
 
     await writeFile(filePath, userCode);

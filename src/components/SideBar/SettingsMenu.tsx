@@ -1,14 +1,17 @@
 import React from 'react';
 import _ from 'lodash';
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { FiSettings } from 'react-icons/fi';
 import useAppContext from '../../hooks/useAppContext';
 import usePackageJsonReader from '../../hooks/usePackageJsonReader';
 import Settings from '../Modal/Settings';
 
 const SettingsMenu = () => {
-  const { packageJson, setPackageJson } = useAppContext();
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    packageJson,
+    setPackageJson,
+    settings: { isOpen, onClose, onOpen },
+  } = useAppContext();
   const jsonReader = usePackageJsonReader();
 
   const showModal = async () => {

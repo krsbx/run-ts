@@ -63,7 +63,9 @@ const FileMenu = () => {
                   _hover={{
                     bgColor: 'whiteAlpha.600',
                   }}
-                  onClick={() => saveFileAs(getFileDirPath(filePath))}
+                  onClick={async () =>
+                    saveFileAs(await getFileDirPath(filePath))
+                  }
                   color={'gray.300'}
                 >
                   Save As

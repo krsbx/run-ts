@@ -1,8 +1,10 @@
 import { ipcMain } from 'electron';
 import _ from 'lodash';
 import fs from 'fs-extra';
+import { ExecException } from 'child_process';
 import { execAsync, getFileDirPath } from '../../src/utils/common';
 import { READ_WRITE } from '../../src/utils/constant/ipc';
+import { declarationErrorHandler } from '../../src/utils/error';
 
 ipcMain.handle(
   READ_WRITE.COMPILE_RUN,
@@ -24,7 +26,18 @@ ipcMain.handle(
       });
 
       return results.stdout;
-    } catch {
+    } catch (err) {
+      const isDeclarationError = (err as ExecException).message.includes(
+        'error TS7016'
+      );
+
+      if (isDeclarationError) {
+        return {
+          declaration: true,
+          message: declarationErrorHandler((err as ExecException).message),
+        };
+      }
+
       return;
     }
   }
