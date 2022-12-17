@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
-import useLocalStorage from '../hooks/useLocalStorage';
 import { LOCAL_STORAGE_KEY } from '../utils/constant/global';
-import { PackageJson } from 'type-fest';
+import useJsonStorage from '../hooks/useJsonStorage';
 
 type ContextProps = ReturnType<typeof useDisclosure> & {
-  packageJson: PackageJson['devDependencies'];
-  setPackageJson: ReactSetter<PackageJson['devDependencies']>;
+  packageJson: Record<string, string>;
+  setPackageJson: ReactSetter<Record<string, string>>;
   packageToAdd: string;
   setPackageToAdd: ReactSetter<string>;
 };
@@ -21,9 +20,10 @@ const SettingContextProvider = ({
   children: React.ReactNode;
 }) => {
   const settingsModal = useDisclosure();
-  const [packageJson, setPackageJson] = useLocalStorage<
-    PackageJson['devDependencies']
-  >(LOCAL_STORAGE_KEY.PACKAGE_JSON, {});
+  const [packageJson, setPackageJson] = useJsonStorage<Record<string, string>>(
+    LOCAL_STORAGE_KEY.PACKAGE_JSON,
+    {}
+  );
   const [packageToAdd, setPackageToAdd] = useState<string>('');
 
   return (

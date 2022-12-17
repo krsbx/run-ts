@@ -4,7 +4,7 @@ import {
   checkPackageExist,
   execAsync,
   getFileDirPath,
-} from '../../src/utils/common';
+} from '../../src/utils/common/main';
 import { UTILITY } from '../../src/utils/constant/ipc';
 
 ipcMain.handle(UTILITY.FILE_DIR_PATH, (event, filePath) => {

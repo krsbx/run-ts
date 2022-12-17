@@ -1,6 +1,7 @@
 import { app, BrowserWindow, shell } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
+import storage from 'electron-json-storage';
 import { setupPackageJson, setupTsConfig } from './main/setup';
 import './ipc';
 
@@ -32,6 +33,8 @@ const url = process.env.VITE_DEV_SERVER_URL ?? 'http://127.0.0.1:7777';
 const indexHtml = join(ROOT_PATH.dist, 'index.html');
 
 const createWindow = async () => {
+  storage.setDataPath();
+
   const mainWindow = new BrowserWindow({
     title: 'Main window',
     icon: join(ROOT_PATH.public, 'vite.svg'),

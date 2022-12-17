@@ -1,13 +1,16 @@
+import _ from 'lodash';
 import React, { createRef, useEffect, useState } from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { FaTimes } from 'react-icons/fa';
 import useFileContext from '../../hooks/useContext/useFileContext';
 import useOnHover from '../../hooks/useOnHover';
+import { getCodeIndex } from '../../utils/common/renderer';
 
 const Tab = ({ index, containerRef }: Props) => {
   const [isOnHover, setIsOnHover] = useState(false);
   const tabRef = createRef<HTMLDivElement>();
-  const { codes, codeIndex, updateIndex, removeCode } = useFileContext();
+  const { codes, codeTotal, codeIndex, updateIndex, removeCode } =
+    useFileContext();
 
   useOnHover(
     tabRef,
@@ -36,9 +39,9 @@ const Tab = ({ index, containerRef }: Props) => {
         color={'gray.300'}
         p={1}
       >
-        <Text fontSize={'22px'}>{index + 1}</Text>
+        <Text fontSize={'22px'}>{getCodeIndex(codes, index)}</Text>
       </Button>
-      {codes.length > 1 ? (
+      {codeTotal > 1 ? (
         <Flex
           visibility={isOnHover ? 'visible' : 'hidden'}
           _hover={{

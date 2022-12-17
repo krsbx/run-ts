@@ -2,7 +2,7 @@ import React from 'react';
 import fs from 'fs-extra';
 import path from 'path';
 import { ipcRenderer } from 'electron';
-import { execAsync } from '../utils/common';
+import { execAsync } from '../utils/common/main';
 import { APP_NAME } from '../utils/constant/global';
 
 declare global {

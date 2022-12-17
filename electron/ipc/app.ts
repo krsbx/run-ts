@@ -1,6 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { APP_VARIABLE } from '../../src/utils/constant/ipc';
-import { getAppDataPath } from '../../src/utils/common';
+import { getAppDataPath } from '../../src/utils/common/main';
 
 ipcMain.handle(
   APP_VARIABLE.PATH,

@@ -36,7 +36,9 @@ const useFileAction = () => {
     setCodes((curr) => {
       curr[codeIndex] = content;
 
-      return [...curr];
+      return {
+        ...curr,
+      };
     });
   };
 

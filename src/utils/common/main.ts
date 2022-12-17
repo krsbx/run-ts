@@ -5,7 +5,7 @@ import npmName from 'npm-name';
 import { app } from 'electron';
 import { promisify } from 'util';
 import { exec } from 'child_process';
-import { APP_NAME, Platform } from './constant/global';
+import { APP_NAME, Platform } from '../constant/global';
 
 export const execAsync = promisify(exec);
 

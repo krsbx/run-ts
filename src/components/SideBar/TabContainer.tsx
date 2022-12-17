@@ -56,7 +56,7 @@ const TabContainer = ({ menuHeight }: Props) => {
           <Tab
             key={`code-${index}`}
             containerRef={tabContainerRef}
-            index={index}
+            index={Number(index)}
           />
         ))}
       </Stack>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import useJsonStorage from '../hooks/useJsonStorage';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { LOCAL_STORAGE_KEY } from '../utils/constant/global';
 
 type ContextProps = {
-  codes: string[];
-  setCodes: ReactSetter<string[]>;
+  codes: Record<string, string>;
+  setCodes: ReactSetter<Record<string, string>>;
   updateCode: (value: string) => void;
   addNewCode: () => void;
   codeIndex: number;
@@ -15,6 +16,7 @@ type ContextProps = {
   setIsChanging: ReactSetter<boolean>;
   updateIndex: (index: number) => void;
   removeCode: (index: number) => void;
+  codeTotal: number;
 };
 
 export const FileContext = React.createContext<ContextProps>(
@@ -27,10 +29,11 @@ const FileContextProvider = ({ children }: { children: React.ReactNode }) => {
     LOCAL_STORAGE_KEY.FILE_PATH,
     ''
   );
-  const [codes, setCodes] = useLocalStorage<string[]>(
+  const [codes, setCodes] = useJsonStorage<Record<string, string>>(
     LOCAL_STORAGE_KEY.USER_CODE,
-    ['']
+    { 0: '' }
   );
+  const codeTotal = useMemo(() => Object.values(codes).length, [codes]);
   const [codeIndex, setCodeIndex] = useLocalStorage<number>(
     LOCAL_STORAGE_KEY.CODE_INDEX,
     0
@@ -40,20 +43,42 @@ const FileContextProvider = ({ children }: { children: React.ReactNode }) => {
     setCodes((curr) => {
       if (isChanging) return curr;
 
-      curr[codeIndex] = value;
+      const clone = Object.values(curr);
+      const codes = clone.reduce(
+        (prev, curr, index) => ({
+          ...prev,
+          [index]: curr,
+        }),
+        {} as Record<string, string>
+      );
 
-      return [...curr];
+      codes[codeIndex] = value;
+
+      return {
+        ...codes,
+      };
     });
   };
 
   const addNewCode = () => {
     setCodes((curr) => {
-      curr.push('');
+      const clone = Object.values(curr);
+      const codes = clone.reduce(
+        (prev, curr, index) => ({
+          ...prev,
+          [index]: curr,
+        }),
+        {} as Record<string, string>
+      );
 
-      return [...curr];
+      codes[clone.length] = '';
+
+      return {
+        ...codes,
+      };
     });
 
-    setCodeIndex(codes.length - 1);
+    setCodeIndex(codeTotal - 1);
   };
 
   const updateIndex = (index: number) => {
@@ -68,12 +93,12 @@ const FileContextProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const removeCode = (index: number) => {
-    if (isChanging || (index === 0 && codes.length === 1)) return;
+    if (isChanging || (index === 0 && codeTotal === 1)) return;
 
     let toIndex = index;
 
-    if (index === codes.length - 1) {
-      toIndex = codes.length - 2;
+    if (index === codeTotal - 1) {
+      toIndex = codeTotal - 2;
     }
 
     setIsChanging(true);
@@ -83,9 +108,20 @@ const FileContextProvider = ({ children }: { children: React.ReactNode }) => {
       setCodeIndex(toIndex);
 
       setCodes((curr) => {
-        curr.splice(index, 1);
+        const clone = Object.values(curr);
+        clone.splice(index, 1);
 
-        return [...curr];
+        const codes = clone.reduce(
+          (prev, curr, index) => ({
+            ...prev,
+            [index]: curr,
+          }),
+          {} as Record<string, string>
+        );
+
+        return {
+          ...codes,
+        };
       });
     }, 200);
   };
@@ -105,6 +141,7 @@ const FileContextProvider = ({ children }: { children: React.ReactNode }) => {
         setIsChanging,
         updateIndex,
         removeCode,
+        codeTotal,
       }}
     >
       {children}
