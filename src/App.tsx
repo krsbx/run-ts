@@ -1,22 +1,23 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import GitHubCorners from '@uiw/react-github-corners';
+import { EditorProps } from '@monaco-editor/react';
 import { Pane } from 'split-pane-react';
-import useAppContext from './hooks/useAppContext';
+import useEditorContext from './hooks/useContext/useEditorContext';
+import useFileContext from './hooks/useContext/useFileContext';
 import TopBar from './components/SideBar';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
 import useCompiler from './hooks/useCompiler';
 import useFileAction from './hooks/useFileAction';
 import useUtility from './hooks/useUtility';
-import { EditorProps } from '@monaco-editor/react';
 import { chakraColor } from './utils/theme';
 import usePackageComparator from './hooks/usePackageComparator';
 
 const App = () => {
-  const { sizes, setSizes, userCode, setUserCode } = useAppContext();
-  const { filePath, bgColor } = useAppContext();
-  const codeResult = useCompiler(userCode);
+  const { sizes, setSizes, bgColor } = useEditorContext();
+  const { filePath, codes, updateCode, codeIndex } = useFileContext();
+  const codeResult = useCompiler(codes[codeIndex]);
 
   const { saveFile, saveFileAs, openFile } = useFileAction();
   const isHasChange = usePackageComparator();
@@ -28,10 +29,10 @@ const App = () => {
     );
     editor.addCommand(
       monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyS,
-      () => saveFileAs(getFileDirPath(filePath))
+      async () => saveFileAs(await getFileDirPath(filePath))
     );
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, () =>
-      openFile(undefined, getFileDirPath(filePath))
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, async () =>
+      openFile(undefined, await getFileDirPath(filePath))
     );
   };
 
@@ -46,8 +47,8 @@ const App = () => {
       <SplitPane split="vertical" sizes={sizes} onChange={setSizes}>
         <Pane minSize={'20%'} maxSize={'80%'}>
           <Editor
-            value={userCode}
-            setValue={setUserCode}
+            value={codes[codeIndex]}
+            setValue={updateCode}
             fontSize={22}
             onMount={onMount}
             style={{
@@ -58,6 +59,7 @@ const App = () => {
         <Editor
           value={codeResult}
           fontSize={22}
+          language={'bash'}
           options={{
             readOnly: true,
             domReadOnly: true,

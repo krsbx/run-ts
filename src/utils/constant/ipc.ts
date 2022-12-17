@@ -33,3 +33,10 @@ export const READ_WRITE = {
   WRITE_FILE: 'read-write.write',
   EXISTS: 'read-write.exits',
 } as const;
+
+export const UTILITY = {
+  FILE_DIR_PATH: 'utility.file-dir.path',
+  CHECK_PACKAGE_NAME: 'utility.package.name',
+  REMOVE_PACKAGES: 'utility.remove.packages',
+  ADD_PACKAGES: 'utility.add.packages',
+} as const;

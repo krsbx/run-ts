@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import useFileAction from '../../hooks/useFileAction';
-import useAppContext from '../../hooks/useAppContext';
+import useFileContext from '../../hooks/useContext/useFileContext';
 import useUtility from '../../hooks/useUtility';
 
 const FileMenu = () => {
-  const { filePath } = useAppContext();
+  const { filePath } = useFileContext();
   const { openFile, saveFile, saveFileAs } = useFileAction();
   const { getFileDirPath } = useUtility();
 
@@ -63,7 +63,9 @@ const FileMenu = () => {
                   _hover={{
                     bgColor: 'whiteAlpha.600',
                   }}
-                  onClick={() => saveFileAs(getFileDirPath(filePath))}
+                  onClick={async () =>
+                    saveFileAs(await getFileDirPath(filePath))
+                  }
                   color={'gray.300'}
                 >
                   Save As

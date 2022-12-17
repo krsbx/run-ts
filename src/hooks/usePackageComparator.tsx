@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import useAppContext from './useAppContext';
+import useSettingContext from './useContext/useSettingContext';
 import usePackageJsonReader from './usePackageJsonReader';
 
 const usePackageComparator = () => {
-  const { packageJson } = useAppContext();
+  const { packageJson } = useSettingContext();
   const jsonReader = usePackageJsonReader();
   const [isHasChange, setIsHasChange] = useState(false);
 

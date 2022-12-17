@@ -16,5 +16,6 @@ export const LOCAL_STORAGE_KEY = {
   THEME: 'theme',
   BG_COLOR: 'bg-color',
   USER_CODE: 'user-code',
+  CODE_INDEX: 'code-index',
   PACKAGE_JSON: 'package-json',
 } as const;

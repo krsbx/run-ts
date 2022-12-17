@@ -1,10 +1,13 @@
+import _ from 'lodash';
 import { useCallback } from 'react';
-import { APP_NAME } from '../utils/constant/global';
-import { READ_WRITE } from '../utils/constant/ipc';
+import { READ_WRITE, UTILITY } from '../utils/constant/ipc';
 
 const useUtility = () => {
   const getFileDirPath = useCallback((filePath: string) => {
-    return window[APP_NAME].getFileDirPath(filePath);
+    return window.ipcRenderer.invoke(
+      UTILITY.FILE_DIR_PATH,
+      filePath
+    ) as Promise<string>;
   }, []);
 
   const compileRun = useCallback(
@@ -14,7 +17,38 @@ const useUtility = () => {
         content,
         filePath,
         configPath
-      ) as Promise<string | undefined>;
+      ) as Promise<string | object | undefined>;
+    },
+    []
+  );
+
+  const isPackageExist = useCallback(async (packageName: string) => {
+    return window.ipcRenderer.invoke(
+      UTILITY.CHECK_PACKAGE_NAME,
+      packageName
+    ) as Promise<boolean>;
+  }, []);
+
+  const installPackages = useCallback(
+    async (packageNames: string[], dirPath: string) => {
+      if (_.isEmpty(packageNames)) return;
+
+      return window.ipcRenderer.invoke(
+        UTILITY.ADD_PACKAGES,
+        packageNames,
+        dirPath
+      ) as Promise<void>;
+    },
+    []
+  );
+
+  const uninstallPackages = useCallback(
+    (packageNames: string[], dirPath: string) => {
+      return window.ipcRenderer.invoke(
+        UTILITY.REMOVE_PACKAGES,
+        packageNames,
+        dirPath
+      ) as Promise<void>;
     },
     []
   );
@@ -22,6 +56,9 @@ const useUtility = () => {
   return {
     getFileDirPath,
     compileRun,
+    isPackageExist,
+    installPackages,
+    uninstallPackages,
   };
 };
 

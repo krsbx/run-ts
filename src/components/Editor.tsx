@@ -3,7 +3,7 @@ import MonacoEditor, { EditorProps, Monaco } from '@monaco-editor/react';
 import { Box, BoxProps } from '@chakra-ui/react';
 import { editor, languages } from 'monaco-editor/esm/vs/editor/editor.api';
 import { setupJavaScript, setupTypeScript } from '../utils/monaco/language';
-import useAppContext from '../hooks/useAppContext';
+import useEditorContext from '../hooks/useContext/useEditorContext';
 import { defineTheme } from '../utils/monaco/definer';
 
 const Editor = ({
@@ -15,7 +15,7 @@ const Editor = ({
   style,
   onMount: _onMount,
 }: Props) => {
-  const { monacosRef, theme } = useAppContext();
+  const { monacosRef, theme } = useEditorContext();
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const modelRef = useRef<editor.ITextModel | null>(null);
   const tsWorkerRef = useRef<languages.typescript.TypeScriptWorker>();
@@ -50,7 +50,7 @@ const Editor = ({
   };
 
   const onChange: EditorProps['onChange'] = (value) => {
-    if (!value) return;
+    if (typeof value === 'undefined') return;
 
     setValue?.(value);
   };
@@ -77,7 +77,7 @@ const Editor = ({
 
 type Props = {
   value: string;
-  setValue?: ReactSetter<string>;
+  setValue?: (value: string) => void;
   fontSize?: number;
   onMount?: EditorProps['onMount'];
   language?: string;
