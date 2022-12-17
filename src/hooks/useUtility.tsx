@@ -53,12 +53,20 @@ const useUtility = () => {
     []
   );
 
+  const synchronizePackages = useCallback((dirPath: string) => {
+    return window.ipcRenderer.invoke(
+      UTILITY.SYNCHRONIZE_PACKAGE,
+      dirPath
+    ) as Promise<void>;
+  }, []);
+
   return {
     getFileDirPath,
     compileRun,
     isPackageExist,
     installPackages,
     uninstallPackages,
+    synchronizePackages,
   };
 };
 

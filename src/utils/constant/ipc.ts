@@ -39,4 +39,5 @@ export const UTILITY = {
   CHECK_PACKAGE_NAME: 'utility.package.name',
   REMOVE_PACKAGES: 'utility.remove.packages',
   ADD_PACKAGES: 'utility.add.packages',
+  SYNCHRONIZE_PACKAGE: 'utility.synchronize.packages',
 } as const;

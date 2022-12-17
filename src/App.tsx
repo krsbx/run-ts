@@ -1,6 +1,5 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import GitHubCorners from '@uiw/react-github-corners';
 import { EditorProps } from '@monaco-editor/react';
 import { Pane } from 'split-pane-react';
 import useEditorContext from './hooks/useContext/useEditorContext';
@@ -12,7 +11,7 @@ import useCompiler from './hooks/useCompiler';
 import useFileAction from './hooks/useFileAction';
 import useUtility from './hooks/useUtility';
 import { chakraColor } from './utils/theme';
-import usePackageComparator from './hooks/usePackageComparator';
+import useAutoInstaller from './hooks/useAutoInstaller';
 
 const App = () => {
   const { sizes, setSizes, bgColor } = useEditorContext();
@@ -20,7 +19,6 @@ const App = () => {
   const codeResult = useCompiler(codes[codeIndex]);
 
   const { saveFile, saveFileAs, openFile } = useFileAction();
-  const isHasChange = usePackageComparator();
   const { getFileDirPath } = useUtility();
 
   const onMount: EditorProps['onMount'] = (editor, monaco) => {
@@ -66,11 +64,7 @@ const App = () => {
           }}
         />
       </SplitPane>
-      <GitHubCorners
-        position="right"
-        bottom
-        href="https://github.com/krsbx/run-ts"
-      />
+      {useAutoInstaller()}
     </Flex>
   );
 };
