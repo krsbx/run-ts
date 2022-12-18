@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import path from 'path';
 import fs from 'fs-extra';
-import { getAppDataPath } from '../../src/utils/common';
+import { getAppDataPath } from '../../src/utils/common/main';
 
 const copyResourceFile = (fileName: string) => {
   const src = path.join(

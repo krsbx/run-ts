@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
-import { execAsync } from '../src/utils/common';
+import { execAsync } from '../src/utils/common/main';
 import { APP_NAME } from '../src/utils/constant/global';
 
 // See the Electron documentation for details on how to use preload scripts:

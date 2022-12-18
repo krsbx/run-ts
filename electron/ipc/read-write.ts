@@ -2,7 +2,7 @@ import { ipcMain } from 'electron';
 import _ from 'lodash';
 import fs from 'fs-extra';
 import { ExecException } from 'child_process';
-import { execAsync, getFileDirPath } from '../../src/utils/common';
+import { execAsync, getFileDirPath } from '../../src/utils/common/main';
 import { READ_WRITE } from '../../src/utils/constant/ipc';
 import { declarationErrorHandler } from '../../src/utils/error';
 

@@ -1,17 +1,15 @@
 import React from 'react';
-import EditorContextProvider from './EditorContext';
-import FileContextProvider from './FileContext';
-import SettingContextProvider from './SettingContext';
+import EditorProvider from '../provider/EditorProvider';
+import FileContextProvider from '../provider/FileProvider';
+import SettingContextProvider from '../provider/SettingProvider';
 
 const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <React.Fragment>
-      <EditorContextProvider>
-        <FileContextProvider>
-          <SettingContextProvider>{children}</SettingContextProvider>
-        </FileContextProvider>
-      </EditorContextProvider>
-    </React.Fragment>
+    <EditorProvider>
+      <FileContextProvider>
+        <SettingContextProvider>{children}</SettingContextProvider>
+      </FileContextProvider>
+    </EditorProvider>
   );
 };
 

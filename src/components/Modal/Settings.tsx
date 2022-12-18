@@ -121,7 +121,10 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
       if (!_.isEmpty(toAddPackages))
         await installPackages(toAddPackages, dirPath);
 
-      setPackageJson((await jsonReader())['devDependencies'] ?? {});
+      setPackageJson(
+        ((await jsonReader())['devDependencies'] as Record<string, string>) ??
+          {}
+      );
       onClose();
     } catch {
       await showMessageDialogBox({

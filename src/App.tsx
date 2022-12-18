@@ -15,11 +15,10 @@ import useAutoInstaller from './hooks/useAutoInstaller';
 
 const App = () => {
   const { sizes, setSizes, bgColor } = useEditorContext();
-  const { filePath, codes, updateCode, codeIndex } = useFileContext();
-  const codeResult = useCompiler(codes[codeIndex]);
-
+  const { filePath, currentCode, updateCode } = useFileContext();
   const { saveFile, saveFileAs, openFile } = useFileAction();
   const { getFileDirPath } = useUtility();
+  const codeResult = useCompiler(currentCode);
 
   const onMount: EditorProps['onMount'] = (editor, monaco) => {
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
@@ -45,7 +44,7 @@ const App = () => {
       <SplitPane split="vertical" sizes={sizes} onChange={setSizes}>
         <Pane minSize={'20%'} maxSize={'80%'}>
           <Editor
-            value={codes[codeIndex]}
+            value={currentCode}
             setValue={updateCode}
             fontSize={22}
             onMount={onMount}

@@ -1,14 +1,25 @@
+import _ from 'lodash';
 import React, { createRef, useEffect, useState } from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { FaTimes } from 'react-icons/fa';
 import useFileContext from '../../hooks/useContext/useFileContext';
 import useOnHover from '../../hooks/useOnHover';
+import { getCodeIndex } from '../../utils/common/renderer';
+import useIsInViewport from '../../hooks/useInViewPort';
 
-const Tab = ({ index, containerRef }: Props) => {
+const Tab = ({
+  index,
+  containerRef,
+  setIsMoveDownDisabled,
+  setIsMoveUpDisabled,
+}: Props) => {
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [isOnHover, setIsOnHover] = useState(false);
   const tabRef = createRef<HTMLDivElement>();
-  const { codes, codeIndex, updateIndex, removeCode } = useFileContext();
+  const { codes, codeTotal, codeIndex, updateIndex, removeCode } =
+    useFileContext();
 
+  const isInViewPort = useIsInViewport(tabRef);
   useOnHover(
     tabRef,
     () => setIsOnHover(true),
@@ -16,13 +27,38 @@ const Tab = ({ index, containerRef }: Props) => {
   );
 
   useEffect(() => {
+    if (isInViewPort) {
+      if (index === 0) {
+        setIsMoveUpDisabled(true);
+      }
+
+      if (index === 14) {
+        setIsMoveDownDisabled(true);
+      }
+
+      return;
+    }
+
+    if (index === 0) {
+      setIsMoveUpDisabled(false);
+    }
+
+    if (index === 14) {
+      setIsMoveDownDisabled(false);
+    }
+  }, [isInViewPort]);
+
+  useEffect(() => {
     if (!containerRef.current || !tabRef.current) return;
     if (codeIndex !== index) return;
+    if (!isFirstRender) return;
 
     containerRef.current.scrollTo({
       behavior: 'smooth',
       top: tabRef.current.offsetTop,
     });
+
+    setIsFirstRender(false);
   }, [tabRef.current, containerRef.current]);
 
   return (
@@ -36,9 +72,9 @@ const Tab = ({ index, containerRef }: Props) => {
         color={'gray.300'}
         p={1}
       >
-        <Text fontSize={'22px'}>{index + 1}</Text>
+        <Text fontSize={'22px'}>{getCodeIndex(codes, index)}</Text>
       </Button>
-      {codes.length > 1 ? (
+      {codeTotal > 1 ? (
         <Flex
           visibility={isOnHover ? 'visible' : 'hidden'}
           _hover={{
@@ -65,6 +101,8 @@ const Tab = ({ index, containerRef }: Props) => {
 
 type Props = {
   containerRef: React.RefObject<HTMLDivElement>;
+  setIsMoveUpDisabled: ReactSetter<boolean>;
+  setIsMoveDownDisabled: ReactSetter<boolean>;
   index: number;
 };
 

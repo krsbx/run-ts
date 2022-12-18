@@ -16,7 +16,7 @@ const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
   const { compileRun } = useUtility();
 
   useEffect(() => {
-    if (content.trim() === '') return;
+    if (_.isEmpty(content)) return;
 
     const timeout = setTimeout(async () => {
       let result = await compileRun(

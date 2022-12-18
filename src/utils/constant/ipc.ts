@@ -41,3 +41,8 @@ export const UTILITY = {
   ADD_PACKAGES: 'utility.add.packages',
   SYNCHRONIZE_PACKAGE: 'utility.synchronize.packages',
 } as const;
+
+export const STORAGE = {
+  GET_ITEM: 'storage.item.get',
+  SET_ITEM: 'storage.item.set',
+} as const;
