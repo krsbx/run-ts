@@ -1,6 +1,6 @@
 import React, { createRef, useCallback, useState } from 'react';
 import _ from 'lodash';
-import { Box, Button, Stack, useInterval } from '@chakra-ui/react';
+import { Button, Stack, useInterval } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import useFileContext from '../../hooks/useContext/useFileContext';
@@ -37,12 +37,7 @@ const TabContainer = ({ menuHeight }: Props) => {
       py={2}
     >
       <Button
-        bgColor={'whiteAlpha.300'}
-        _hover={{
-          bgColor: 'whiteAlpha.500',
-        }}
-        p={1}
-        color={'gray.300'}
+        variant={'main'}
         onMouseDown={() => setIsMouseDownOnUp(true)}
         onMouseUp={() => setIsMouseDownOnUp(false)}
         disabled={isMoveUpDisabled}
@@ -69,28 +64,14 @@ const TabContainer = ({ menuHeight }: Props) => {
         ))}
       </Stack>
       <Button
-        bgColor={'whiteAlpha.300'}
-        _hover={{
-          bgColor: 'whiteAlpha.500',
-        }}
-        p={1}
-        color={'gray.300'}
+        variant={'main'}
         onMouseDown={() => setIsMouseDownOnDown(true)}
         onMouseUp={() => setIsMouseDownOnDown(false)}
         disabled={isMoveDownDisabled}
       >
         <FaChevronDown size={'25px'} />
       </Button>
-      <Button
-        bgColor={'whiteAlpha.300'}
-        _hover={{
-          bgColor: 'whiteAlpha.500',
-        }}
-        onClick={addNewCode}
-        p={1}
-        color={'gray.300'}
-        disabled={codeTotal >= 15}
-      >
+      <Button variant={'main'} onClick={addNewCode} disabled={codeTotal >= 15}>
         <FiPlus size={'25px'} />
       </Button>
     </Stack>

@@ -46,3 +46,9 @@ export const STORAGE = {
   GET_ITEM: 'storage.item.get',
   SET_ITEM: 'storage.item.set',
 } as const;
+
+export const WINDOW_ACTION = {
+  MINIMIZE: 'window.action.minimize',
+  MAXIMIZE: 'window.action.maximize',
+  QUIT: 'window.action.quit',
+} as const;

@@ -14,14 +14,7 @@ const HelpMenu = () => {
   return (
     <Popover placement="right">
       <PopoverTrigger>
-        <Button
-          bgColor={'whiteAlpha.300'}
-          _hover={{
-            bgColor: 'whiteAlpha.600',
-          }}
-          p={1}
-          color={'gray.300'}
-        >
+        <Button variant={'main'}>
           <FiHelpCircle size={'25px'} />
         </Button>
       </PopoverTrigger>
@@ -30,42 +23,30 @@ const HelpMenu = () => {
         <PopoverBody maxHeight={'40vh'} overflow={'auto'}>
           <Stack spacing={2} position={'relative'}>
             <Button
-              bgColor={'whiteAlpha.300'}
-              _hover={{
-                bgColor: 'whiteAlpha.600',
-              }}
+              variant={'main'}
               onClick={() =>
                 window.open('https://github.com/krsbx/run-ts/issues')
               }
-              color={'gray.300'}
             >
               Report Issue?
             </Button>
             <Button
-              bgColor={'whiteAlpha.300'}
-              _hover={{
-                bgColor: 'whiteAlpha.600',
-              }}
+              variant={'main'}
               onClick={() =>
                 window.open(
                   'https://github.com/krsbx/run-ts/blob/main/CONTRIBUTING.md'
                 )
               }
-              color={'gray.300'}
             >
               Want to Contribute?
             </Button>
             <Button
-              bgColor={'whiteAlpha.300'}
-              _hover={{
-                bgColor: 'whiteAlpha.600',
-              }}
+              variant={'main'}
               onClick={() =>
                 window.open(
                   'https://www.linkedin.com/in/muhammad-firdaus-sati-7a0b541b6/'
                 )
               }
-              color={'gray.300'}
             >
               Connect with Me!
             </Button>

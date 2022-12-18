@@ -23,14 +23,7 @@ const FileMenu = () => {
       {({ onClose }) => (
         <React.Fragment>
           <PopoverTrigger>
-            <Button
-              bgColor={'whiteAlpha.300'}
-              _hover={{
-                bgColor: 'whiteAlpha.600',
-              }}
-              p={1}
-              color={'gray.300'}
-            >
+            <Button variant={'main'}>
               <HiOutlineDocumentText size={'25px'} />
             </Button>
           </PopoverTrigger>
@@ -38,35 +31,17 @@ const FileMenu = () => {
             <PopoverArrow />
             <PopoverBody maxHeight={'40vh'} overflow={'auto'}>
               <Stack spacing={2} position={'relative'}>
-                <Button
-                  bgColor={'whiteAlpha.300'}
-                  _hover={{
-                    bgColor: 'whiteAlpha.600',
-                  }}
-                  onClick={() => openFile(onClose)}
-                  color={'gray.300'}
-                >
+                <Button variant={'main'} onClick={() => openFile(onClose)}>
                   Open
                 </Button>
-                <Button
-                  bgColor={'whiteAlpha.300'}
-                  _hover={{
-                    bgColor: 'whiteAlpha.600',
-                  }}
-                  onClick={saveFile}
-                  color={'gray.300'}
-                >
+                <Button variant={'main'} onClick={saveFile}>
                   Save
                 </Button>
                 <Button
-                  bgColor={'whiteAlpha.300'}
-                  _hover={{
-                    bgColor: 'whiteAlpha.600',
-                  }}
+                  variant={'main'}
                   onClick={async () =>
                     saveFileAs(await getFileDirPath(filePath))
                   }
-                  color={'gray.300'}
                 >
                   Save As
                 </Button>

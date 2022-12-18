@@ -19,14 +19,7 @@ const ThemePicker = () => {
   return (
     <Popover placement="right">
       <PopoverTrigger>
-        <Button
-          bgColor={'whiteAlpha.300'}
-          _hover={{
-            bgColor: 'whiteAlpha.600',
-          }}
-          p={1}
-          color={'gray.300'}
-        >
+        <Button variant={'main'}>
           <GiPaintRoller size={'25px'} />
         </Button>
       </PopoverTrigger>
@@ -36,14 +29,11 @@ const ThemePicker = () => {
           <Stack spacing={2}>
             {_.map(EDITOR_THEME, ({ name, theme }) => (
               <Button
+                variant={'main'}
                 onClick={changeTheme(theme)}
                 bgColor={
                   currTheme === theme ? 'whiteAlpha.700' : 'whiteAlpha.400'
                 }
-                _hover={{
-                  bgColor: 'whiteAlpha.600',
-                }}
-                color={'gray.300'}
                 key={name}
               >
                 {name}

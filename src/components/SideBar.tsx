@@ -14,14 +14,14 @@ const SideBar = () => {
 
   return (
     <Flex flexDirection={'column'} justifyContent={'space-between'} py={2}>
-      <Stack direction={'column'} spacing={2} ref={menuRef}>
+      <Stack direction={'column'} spacing={2} ref={menuRef} pb={2}>
         <FileMenu />
         <ThemePicker />
         <SettingsMenu />
       </Stack>
-      <Divider />
+      <Divider borderColor={'whiteAlpha.600'} />
       <TabContainer menuHeight={menuHeight} />
-      <Divider />
+      <Divider borderColor={'whiteAlpha.600'} mb={2} />
       <HelpMenu />
     </Flex>
   );

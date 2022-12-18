@@ -4,6 +4,8 @@ import { join } from 'path';
 import storage from 'electron-json-storage';
 import { setupPackageJson, setupTsConfig } from './main/setup';
 import './ipc';
+import { APP_NAME } from '../src/utils/constant/global';
+import { setupWindowAction } from './ipc/window';
 
 const DIST_PATH = join(__dirname, '../dist');
 
@@ -36,14 +38,17 @@ const createWindow = async () => {
   storage.setDataPath();
 
   const mainWindow = new BrowserWindow({
-    title: 'Main window',
+    title: APP_NAME,
     icon: join(ROOT_PATH.public, 'vite.svg'),
+    frame: false,
     webPreferences: {
       preload,
       contextIsolation: true,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
     },
+    minWidth: 500,
+    minHeight: 500,
   });
 
   if (app.isPackaged) {
@@ -53,9 +58,14 @@ const createWindow = async () => {
     mainWindow.webContents.openDevTools();
   }
 
-  await Promise.all([setupPackageJson(), setupTsConfig()]);
+  await Promise.all([
+    setupPackageJson(),
+    setupTsConfig(),
+    setupWindowAction(mainWindow),
+  ]);
 
-  mainWindow.menuBarVisible = false;
+  mainWindow.removeMenu();
+  mainWindow.setMenuBarVisibility(false);
 
   // Test actively push message to the Electron-Renderer
   mainWindow.webContents.on('did-finish-load', () => {
