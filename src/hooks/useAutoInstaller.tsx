@@ -27,8 +27,10 @@ const useAutoInstaller = () => {
       await synchronizePackages(dirPath);
 
       setPackageJson(
-        ((await jsonReader())['devDependencies'] as Record<string, string>) ??
-          {}
+        ((await jsonReader())['devDependencies'] ?? {}) as Record<
+          string,
+          string
+        >
       );
 
       return;

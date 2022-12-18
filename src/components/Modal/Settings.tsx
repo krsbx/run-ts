@@ -122,8 +122,10 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
         await installPackages(toAddPackages, dirPath);
 
       setPackageJson(
-        ((await jsonReader())['devDependencies'] as Record<string, string>) ??
-          {}
+        ((await jsonReader())['devDependencies'] ?? {}) as Record<
+          string,
+          string
+        >
       );
       onClose();
     } catch {

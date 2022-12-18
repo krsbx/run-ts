@@ -1,10 +1,11 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { EditorProps } from '@monaco-editor/react';
 import { Pane } from 'split-pane-react';
 import useEditorContext from './hooks/useContext/useEditorContext';
 import useFileContext from './hooks/useContext/useFileContext';
-import TopBar from './components/SideBar';
+import TopBar from './components/TopBar';
+import SideBar from './components/SideBar';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
 import useCompiler from './hooks/useCompiler';
@@ -40,29 +41,43 @@ const App = () => {
       bgColor={bgColor}
       overflowX={'hidden'}
     >
-      <TopBar />
-      <SplitPane split="vertical" sizes={sizes} onChange={setSizes}>
-        <Pane minSize={'20%'} maxSize={'80%'}>
+      <SideBar />
+      <Box width={'100%'} height={'100%'}>
+        <TopBar />
+        <SplitPane
+          split="vertical"
+          sizes={sizes}
+          onChange={setSizes}
+          style={{
+            height: 'calc(100vh - 40px)',
+          }}
+        >
+          <Pane minSize={'20%'} maxSize={'80%'}>
+            <Editor
+              value={currentCode}
+              setValue={updateCode}
+              fontSize={22}
+              onMount={onMount}
+              style={{
+                borderRight: `1px solid ${chakraColor('gray', '700')}`,
+                height: 'calc(100vh - 40px)',
+              }}
+            />
+          </Pane>
           <Editor
-            value={currentCode}
-            setValue={updateCode}
+            value={codeResult}
             fontSize={22}
-            onMount={onMount}
+            language={'bash'}
+            options={{
+              readOnly: true,
+              domReadOnly: true,
+            }}
             style={{
-              borderRight: `1px solid ${chakraColor('gray', '700')}`,
+              height: 'calc(100vh - 40px)',
             }}
           />
-        </Pane>
-        <Editor
-          value={codeResult}
-          fontSize={22}
-          language={'bash'}
-          options={{
-            readOnly: true,
-            domReadOnly: true,
-          }}
-        />
-      </SplitPane>
+        </SplitPane>
+      </Box>
       {useAutoInstaller()}
     </Flex>
   );

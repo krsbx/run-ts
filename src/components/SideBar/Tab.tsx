@@ -28,24 +28,14 @@ const Tab = ({
 
   useEffect(() => {
     if (isInViewPort) {
-      if (index === 0) {
-        setIsMoveUpDisabled(true);
-      }
-
-      if (index === 14) {
-        setIsMoveDownDisabled(true);
-      }
+      if (index === 0) setIsMoveUpDisabled(true);
+      if (index === codeTotal - 1) setIsMoveDownDisabled(true);
 
       return;
     }
 
-    if (index === 0) {
-      setIsMoveUpDisabled(false);
-    }
-
-    if (index === 14) {
-      setIsMoveDownDisabled(false);
-    }
+    if (index === 0) setIsMoveUpDisabled(false);
+    if (index === codeTotal - 1) setIsMoveDownDisabled(false);
   }, [isInViewPort]);
 
   useEffect(() => {
@@ -64,13 +54,9 @@ const Tab = ({
   return (
     <Box position={'relative'} ref={tabRef}>
       <Button
+        variant={'main'}
         bgColor={codeIndex === index ? 'whiteAlpha.600' : 'whiteAlpha.300'}
-        _hover={{
-          bgColor: 'whiteAlpha.500',
-        }}
         onClick={() => updateIndex(index)}
-        color={'gray.300'}
-        p={1}
       >
         <Text fontSize={'22px'}>{getCodeIndex(codes, index)}</Text>
       </Button>

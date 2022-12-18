@@ -15,7 +15,9 @@ const SettingsMenu = () => {
     try {
       const pkgJson = await jsonReader();
 
-      setPackageJson(pkgJson?.devDependencies ?? {});
+      setPackageJson(
+        (pkgJson?.devDependencies ?? {}) as Record<string, string>
+      );
 
       onOpen();
     } catch {
@@ -25,15 +27,7 @@ const SettingsMenu = () => {
 
   return (
     <React.Fragment>
-      <Button
-        bgColor={'whiteAlpha.300'}
-        _hover={{
-          bgColor: 'whiteAlpha.600',
-        }}
-        p={1}
-        color={'gray.300'}
-        onClick={() => showModal()}
-      >
+      <Button variant={'main'} onClick={() => showModal()}>
         <FiSettings size={'25px'} />
       </Button>
       <Settings isOpen={isOpen} onClose={onClose} packageJson={packageJson} />
