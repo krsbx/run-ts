@@ -18,8 +18,8 @@
       filter: ['**/*'],
     },
     {
-      from: 'node_modules/npm',
-      to: 'npm',
+      from: 'node_modules/yarn',
+      to: 'yarn',
       filter: ['**/*'],
     },
   ],
