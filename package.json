@@ -1,7 +1,7 @@
 {
   "name": "run-ts",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -20,7 +20,7 @@
     "react",
     "vite"
   ],
-  "author": "",
+  "author": "KRSBX <21305278+krsbx@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
     "@chakra-ui/react": "^2.4.3",
@@ -33,6 +33,7 @@
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.13",
+    "@types/npm": "^7.19.0",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
@@ -48,6 +49,7 @@
     "husky": "^8.0.2",
     "lodash": "^4.17.21",
     "monaco-themes": "^0.4.3",
+    "npm": "^9.2.0",
     "npm-name": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

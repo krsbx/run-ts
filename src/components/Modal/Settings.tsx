@@ -6,7 +6,6 @@ import {
   ModalContent,
   ModalOverlay,
   ModalBody,
-  ModalCloseButton,
   ModalHeader,
   Text,
   Stack,
@@ -26,6 +25,7 @@ import useAppIpcEvent from '../../hooks/useAppIpcEvent';
 import useSettingContext from '../../hooks/useContext/useSettingContext';
 import usePackageJsonReader from '../../hooks/usePackageJsonReader';
 import useDialogIpcEvent from '../../hooks/useDialogIpcEvent';
+import { EXCLUDED_PACKAGE } from '../../utils/constant/setting';
 
 const Form = chakra('form');
 
@@ -243,16 +243,18 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
                   </Text>
                 </GridItem>
                 <GridItem px={1} display={'flex'} justifyContent={'flex-end'}>
-                  <Checkbox
-                    borderRadius={'lg'}
-                    onChange={() => dropPackage(name)}
-                    disabled={isProcessing}
-                    checked={
-                      removedPackages.findIndex(
-                        (pkgName) => pkgName === name
-                      ) !== -1
-                    }
-                  />
+                  {!_.includes(_.values(EXCLUDED_PACKAGE), name) ? (
+                    <Checkbox
+                      borderRadius={'lg'}
+                      onChange={() => dropPackage(name)}
+                      disabled={isProcessing}
+                      checked={
+                        removedPackages.findIndex(
+                          (pkgName) => pkgName === name
+                        ) !== -1
+                      }
+                    />
+                  ) : null}
                 </GridItem>
               </Grid>
             ))}

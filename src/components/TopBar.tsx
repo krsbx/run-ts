@@ -9,6 +9,16 @@ import useWindowAction from '../hooks/useWindowAction';
 const TopBar = () => {
   const { maximizeWindow, minimizeWindow, closeApp } = useWindowAction();
 
+  const handleResize = (e: React.MouseEvent) => {
+    switch (e.detail) {
+      case 2:
+        maximizeWindow();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Flex
       width={'100%'}
@@ -16,6 +26,7 @@ const TopBar = () => {
       justifyContent={'center'}
       alignItems={'center'}
       position={'relative'}
+      onClick={handleResize}
     >
       <Text
         color={'whiteAlpha.800'}
