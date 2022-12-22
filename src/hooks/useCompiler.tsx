@@ -19,7 +19,7 @@ const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
     if (_.isEmpty(content)) return;
 
     const timeout = setTimeout(async () => {
-      let result = await compileRun(
+      const result = await compileRun(
         content,
         window.path.join(await getAppDataPath(), `.files-${codeIndex}.ts`),
         window.path.join(await getAppDataPath(), 'tsconfig.json')
@@ -36,7 +36,7 @@ const useCompiler = (content: string, setValue?: ReactSetter<string>) => {
           await showMessageDialogBox({
             title: 'Error',
             message: `Missing declarations files`,
-            detail: `Please install this packages from settings \n${_.map(
+            detail: `Please install the following packages from settings \n${_.map(
               error.message,
               (msg) => msg.declaration
             ).join(',')}`,

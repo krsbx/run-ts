@@ -13,12 +13,13 @@ const components = {
   Button: defineStyleConfig({
     variants: {
       main: {
-        bgColor: 'whiteAlpha.300',
+        bgColor: 'transparent',
         _hover: {
           bgColor: 'whiteAlpha.600',
         },
         p: 1,
         color: 'gray.300',
+        borderRadius: 'none',
       },
     },
   }),

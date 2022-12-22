@@ -13,11 +13,14 @@ import useFileAction from './hooks/useFileAction';
 import useUtility from './hooks/useUtility';
 import { chakraColor } from './utils/theme';
 import useAutoInstaller from './hooks/useAutoInstaller';
+import useWindowAction from './hooks/useWindowAction';
 
 const App = () => {
   const { sizes, setSizes, bgColor } = useEditorContext();
-  const { filePath, currentCode, updateCode } = useFileContext();
+  const { filePath, currentCode } = useFileContext();
+  const { updateCode, removeCurrentCode, quickChangeTab } = useFileContext();
   const { saveFile, saveFileAs, openFile } = useFileAction();
+  const { closeApp } = useWindowAction();
   const { getFileDirPath } = useUtility();
   const codeResult = useCompiler(currentCode);
 
@@ -31,6 +34,16 @@ const App = () => {
     );
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, async () =>
       openFile(undefined, await getFileDirPath(filePath))
+    );
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyW, () =>
+      removeCurrentCode()
+    );
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyW,
+      () => closeApp()
+    );
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Tab, () =>
+      quickChangeTab()
     );
   };
 

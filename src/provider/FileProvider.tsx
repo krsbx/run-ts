@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import FileContext from '../context/FileContext';
 import useJsonStorage from '../hooks/useJsonStorage';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -18,7 +18,10 @@ const FileProvider = ({ children }: { children: React.ReactNode }) => {
     0
   );
   const codeTotal = useMemo(() => Object.values(codes).length, [codes]);
-  const currentCode = useMemo(() => codes[codeIndex], [codes, codeIndex]);
+  const currentCode = useMemo(
+    () => codes[codeIndex],
+    [codes, codeIndex, codeTotal]
+  );
 
   const addNewCode = () => {
     if (codeTotal > 14) return;
@@ -69,9 +72,7 @@ const FileProvider = ({ children }: { children: React.ReactNode }) => {
 
     let toIndex = index;
 
-    if (index === codeTotal - 1) {
-      toIndex = codeTotal - 2;
-    }
+    if (index === codeTotal - 1) toIndex = codeTotal - 2;
 
     setIsChanging(true);
 
@@ -98,34 +99,55 @@ const FileProvider = ({ children }: { children: React.ReactNode }) => {
     }, 200);
   };
 
-  const updateIndex = (index: number) => {
-    if (index === codeIndex) return;
+  const removeCurrentCode = useCallback(() => {
+    if (isChanging || (codeIndex === 0 && codeTotal === 1)) return;
 
-    setIsChanging(true);
+    removeCode(codeIndex);
+  }, [codeIndex]);
 
-    setTimeout(() => {
-      setIsChanging(false);
-      setCodeIndex(index);
-    }, 200);
-  };
+  const updateIndex = useCallback(
+    (index: number) => {
+      if (index === codeIndex) return;
+
+      setIsChanging(true);
+
+      setTimeout(() => {
+        setIsChanging(false);
+        setCodeIndex(index);
+      }, 200);
+    },
+    [codeIndex]
+  );
+
+  const quickChangeTab = useCallback(() => {
+    if (isChanging || codeTotal === 1) return;
+
+    const isFirst = codeIndex === 0;
+    const isLast = codeIndex === codeTotal - 1;
+
+    if (isFirst) return updateIndex(codeIndex + 1);
+    if (isLast) return updateIndex(codeTotal - 2);
+
+    if (codeIndex % 2 === 0) return updateIndex(codeIndex + 1);
+    updateIndex(codeIndex - 1);
+  }, [codeIndex, codeTotal, isChanging]);
 
   return (
     <FileContext.Provider
       value={{
         codes,
-        setCodes,
         codeIndex,
-        setCodeIndex,
         addNewCode,
         updateCode,
         removeCode,
         filePath,
         setFilePath,
         isChanging,
-        setIsChanging,
         updateIndex,
         codeTotal,
         currentCode,
+        removeCurrentCode,
+        quickChangeTab,
       }}
     >
       {children}
