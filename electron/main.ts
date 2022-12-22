@@ -35,7 +35,11 @@ const url = process.env.VITE_DEV_SERVER_URL ?? 'http://127.0.0.1:7777';
 const indexHtml = join(ROOT_PATH.dist, 'index.html');
 
 const createWindow = async () => {
-  storage.setDataPath();
+  await Promise.all([
+    setupPackageJson(),
+    setupTsConfig(),
+    storage.setDataPath(),
+  ]);
 
   const mainWindow = new BrowserWindow({
     title: APP_NAME,
@@ -58,11 +62,7 @@ const createWindow = async () => {
     mainWindow.webContents.openDevTools();
   }
 
-  await Promise.all([
-    setupPackageJson(),
-    setupTsConfig(),
-    setupWindowAction(mainWindow),
-  ]);
+  await setupWindowAction(mainWindow);
 
   mainWindow.removeMenu();
   mainWindow.setMenuBarVisibility(false);

@@ -9,25 +9,37 @@ import useWindowAction from '../hooks/useWindowAction';
 const TopBar = () => {
   const { maximizeWindow, minimizeWindow, closeApp } = useWindowAction();
 
+  const handleResize = (e: React.MouseEvent) => {
+    switch (e.detail) {
+      case 2:
+        maximizeWindow();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Flex
       width={'100%'}
-      height={'40px'}
+      height={'32px'}
       justifyContent={'center'}
       alignItems={'center'}
       position={'relative'}
+      onClick={handleResize}
     >
       <Text
         color={'whiteAlpha.800'}
         textAlign={'center'}
         mr={'20px'}
         visibility={{ base: 'hidden', sm: 'visible' }}
+        userSelect={'none'}
       >
         {APP_NAME}
       </Text>
       <Stack
         position={'absolute'}
-        top={'5px'}
+        top={0}
         right={0}
         translateX={0}
         direction={'row'}

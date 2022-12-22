@@ -45,7 +45,7 @@ const TabContainer = ({ menuHeight }: Props) => {
         <FaChevronUp size={'25px'} />
       </Button>
       <Stack
-        spacing={2}
+        spacing={'2px'}
         justifyContent={'flex-start'}
         scrollBehavior={'smooth'}
         height={`100%`}

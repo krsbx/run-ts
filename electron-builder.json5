@@ -17,6 +17,11 @@
       to: 'resources',
       filter: ['**/*'],
     },
+    {
+      from: 'node_modules/yarn',
+      to: 'yarn',
+      filter: ['**/*'],
+    },
   ],
   win: {
     target: [
@@ -38,7 +43,8 @@
     target: ['dmg'],
   },
   linux: {
-    target: ['AppImage'],
     artifactName: '${productName}_${version}.${ext}',
+    target: ['deb'],
+    category: 'Development',
   },
 }

@@ -15,8 +15,8 @@ const useUtility = () => {
       return window.ipcRenderer.invoke(
         READ_WRITE.COMPILE_RUN,
         content,
-        filePath,
-        configPath
+        filePath.replace(/\ /, '\\ '),
+        configPath.replace(/\ /, '\\ ')
       ) as Promise<string | object | undefined>;
     },
     []

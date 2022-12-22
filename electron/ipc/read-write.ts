@@ -5,6 +5,7 @@ import { ExecException } from 'child_process';
 import { execAsync, getFileDirPath } from '../../src/utils/common/main';
 import { READ_WRITE } from '../../src/utils/constant/ipc';
 import { declarationErrorHandler } from '../../src/utils/error';
+import { YARN } from '../../src/utils/constant/main';
 
 ipcMain.handle(
   READ_WRITE.COMPILE_RUN,
@@ -16,16 +17,21 @@ ipcMain.handle(
 
       await fs.writeFile(filePath, content);
 
-      let command = 'npx ts-node-esm';
+      const commands = [`${YARN} ts-node-esm`];
 
-      if (!_.isEmpty(configPath)) command += ` --project ${configPath}`;
-      command += ` ${filePath}`;
+      if (!_.isEmpty(configPath)) commands.push(`--project ${configPath}`);
+      commands.push(filePath);
 
-      const results = await execAsync(command, {
-        cwd: dirPath,
-      });
+      const results = (
+        await execAsync(commands.join(' '), {
+          cwd: dirPath,
+        })
+      ).stdout.split('\n');
 
-      return results.stdout;
+      const result = results.slice(2, -2);
+      result.push('\n');
+
+      return result.join('\n');
     } catch (err) {
       const isDeclarationError = (err as ExecException).message.includes(
         'error TS7016'

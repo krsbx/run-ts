@@ -6,7 +6,6 @@ import {
   ModalContent,
   ModalOverlay,
   ModalBody,
-  ModalCloseButton,
   ModalHeader,
   Text,
   Stack,
@@ -26,6 +25,7 @@ import useAppIpcEvent from '../../hooks/useAppIpcEvent';
 import useSettingContext from '../../hooks/useContext/useSettingContext';
 import usePackageJsonReader from '../../hooks/usePackageJsonReader';
 import useDialogIpcEvent from '../../hooks/useDialogIpcEvent';
+import { EXCLUDED_PACKAGE } from '../../utils/constant/setting';
 
 const Form = chakra('form');
 
@@ -151,12 +151,23 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
     >
       <ModalOverlay />
       <ModalContent bgColor={'gray.800'}>
-        <ModalCloseButton
-          color={'whiteAlpha.800'}
+        <Button
+          variant={'main'}
+          p={0}
+          size={'sm'}
           {...(!isProcessing && { onClick: onClose })}
-        />
+          position={'absolute'}
+          right={0}
+          top={0}
+          w={'40px'}
+          h={'40px'}
+        >
+          <FaTimes size={'15px'} />
+        </Button>
         <ModalHeader>
-          <Text color={'whiteAlpha.800'}>Package Manager</Text>
+          <Text color={'whiteAlpha.800'} userSelect={'none'}>
+            Package Manager
+          </Text>
         </ModalHeader>
         <ModalBody>
           <Form onSubmit={onSubmit}>
@@ -175,10 +186,14 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
           </Form>
           <Grid templateColumns={'repeat(2, 1fr)'} gap={1} pb={2} px={2}>
             <GridItem>
-              <Text color={'whiteAlpha.800'}>Name@Version</Text>
+              <Text color={'whiteAlpha.800'} userSelect={'none'}>
+                Name@Version
+              </Text>
             </GridItem>
             <GridItem display={'flex'} justifyContent={'flex-end'}>
-              <Text color={'whiteAlpha.800'}>Remove</Text>
+              <Text color={'whiteAlpha.800'} userSelect={'none'}>
+                Remove
+              </Text>
             </GridItem>
           </Grid>
           <Stack
@@ -228,16 +243,18 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
                   </Text>
                 </GridItem>
                 <GridItem px={1} display={'flex'} justifyContent={'flex-end'}>
-                  <Checkbox
-                    borderRadius={'lg'}
-                    onChange={() => dropPackage(name)}
-                    disabled={isProcessing}
-                    checked={
-                      removedPackages.findIndex(
-                        (pkgName) => pkgName === name
-                      ) !== -1
-                    }
-                  />
+                  {!_.includes(_.values(EXCLUDED_PACKAGE), name) ? (
+                    <Checkbox
+                      borderRadius={'lg'}
+                      onChange={() => dropPackage(name)}
+                      disabled={isProcessing}
+                      checked={
+                        removedPackages.findIndex(
+                          (pkgName) => pkgName === name
+                        ) !== -1
+                      }
+                    />
+                  ) : null}
                 </GridItem>
               </Grid>
             ))}

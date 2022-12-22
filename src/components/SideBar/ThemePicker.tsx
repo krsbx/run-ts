@@ -31,9 +31,7 @@ const ThemePicker = () => {
               <Button
                 variant={'main'}
                 onClick={changeTheme(theme)}
-                bgColor={
-                  currTheme === theme ? 'whiteAlpha.700' : 'whiteAlpha.400'
-                }
+                bgColor={currTheme === theme ? 'whiteAlpha.600' : 'transparent'}
                 key={name}
               >
                 {name}

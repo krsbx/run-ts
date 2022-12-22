@@ -6,6 +6,7 @@ import {
   getFileDirPath,
 } from '../../src/utils/common/main';
 import { UTILITY } from '../../src/utils/constant/ipc';
+import { YARN } from '../../src/utils/constant/main';
 
 ipcMain.handle(UTILITY.FILE_DIR_PATH, (event, filePath) => {
   return getFileDirPath(filePath);
@@ -31,7 +32,7 @@ ipcMain.handle(
       })
     );
 
-    return execAsync(`npm i -D ${validPackages.join(' ')}`, {
+    return execAsync(`${YARN} add -D ${validPackages.join(' ')}`, {
       cwd,
     });
   }
@@ -42,14 +43,14 @@ ipcMain.handle(
   async (event, packageNames: string[], cwd: string) => {
     if (_.isEmpty(packageNames)) return;
 
-    return execAsync(`npm un ${packageNames.join(' ')}`, {
+    return execAsync(`${YARN} remove ${packageNames.join(' ')}`, {
       cwd,
     });
   }
 );
 
 ipcMain.handle(UTILITY.SYNCHRONIZE_PACKAGE, async (event, cwd: string) => {
-  return execAsync(`npm i`, {
+  return execAsync(`${YARN}`, {
     cwd,
   });
 });
