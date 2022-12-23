@@ -26,7 +26,6 @@ export const PlatformName = {
 
 export const READ_WRITE = {
   COMPILE: 'read-write.compile',
-  COMPILE_RUN: 'read-write.compile-run',
   RUN: 'read-write.run',
   READ_FILE: 'read-write.read',
   READ_JSON_FILE: 'read-write.read.json',
@@ -40,6 +39,7 @@ export const UTILITY = {
   REMOVE_PACKAGES: 'utility.remove.packages',
   ADD_PACKAGES: 'utility.add.packages',
   SYNCHRONIZE_PACKAGE: 'utility.synchronize.packages',
+  COMPILE_RUN: 'utility.compile.run',
 } as const;
 
 export const STORAGE = {

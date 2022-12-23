@@ -35,7 +35,7 @@ const TopBar = () => {
         visibility={{ base: 'hidden', sm: 'visible' }}
         userSelect={'none'}
       >
-        {APP_NAME}
+        Run TS
       </Text>
       <Stack
         position={'absolute'}

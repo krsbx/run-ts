@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Flex } from '@chakra-ui/react';
-import { EditorProps } from '@monaco-editor/react';
 import { Pane } from 'split-pane-react';
 import useEditorContext from './hooks/useContext/useEditorContext';
 import useFileContext from './hooks/useContext/useFileContext';
@@ -9,43 +8,16 @@ import SideBar from './components/SideBar';
 import SplitPane from './components/SplitPane';
 import Editor from './components/Editor';
 import useCompiler from './hooks/useCompiler';
-import useFileAction from './hooks/useFileAction';
-import useUtility from './hooks/useUtility';
 import { chakraColor } from './utils/theme';
 import useAutoInstaller from './hooks/useAutoInstaller';
-import useWindowAction from './hooks/useWindowAction';
+import useOnEditorOnMount from './hooks/useOnEditorOnMount';
 
 const App = () => {
   const { sizes, setSizes, bgColor } = useEditorContext();
-  const { filePath, currentCode } = useFileContext();
-  const { updateCode, removeCurrentCode, quickChangeTab } = useFileContext();
-  const { saveFile, saveFileAs, openFile } = useFileAction();
-  const { closeApp } = useWindowAction();
-  const { getFileDirPath } = useUtility();
+  const { currentCode } = useFileContext();
+  const { updateCode } = useFileContext();
+  const onEditorMount = useOnEditorOnMount();
   const codeResult = useCompiler(currentCode);
-
-  const onMount: EditorProps['onMount'] = (editor, monaco) => {
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
-      saveFile()
-    );
-    editor.addCommand(
-      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyS,
-      async () => saveFileAs(await getFileDirPath(filePath))
-    );
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO, async () =>
-      openFile(undefined, await getFileDirPath(filePath))
-    );
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyW, () =>
-      removeCurrentCode()
-    );
-    editor.addCommand(
-      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyW,
-      () => closeApp()
-    );
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Tab, () =>
-      quickChangeTab()
-    );
-  };
 
   return (
     <Flex
@@ -70,7 +42,7 @@ const App = () => {
               value={currentCode}
               setValue={updateCode}
               fontSize={22}
-              onMount={onMount}
+              onMount={onEditorMount}
               style={{
                 borderRight: `1px solid ${chakraColor('gray', '700')}`,
                 height: 'calc(100vh - 40px)',

@@ -5,10 +5,10 @@ import { getAppDataPath, getFileDirPath } from '../../src/utils/common/main';
 import { INSTALLED_PATH } from '../../src/utils/constant/main';
 
 const copyResourceFile = async (fileName: string) => {
-  let src = path.resolve('electron/resources', fileName);
+  let src = path.resolve('electron/files', fileName);
 
   if (app.isPackaged) {
-    src = path.join(INSTALLED_PATH, 'resources', fileName);
+    src = path.join(INSTALLED_PATH, 'files', fileName);
   }
 
   const dest = path.join(getAppDataPath(), fileName);

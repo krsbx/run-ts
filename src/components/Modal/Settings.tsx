@@ -157,8 +157,8 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
           size={'sm'}
           {...(!isProcessing && { onClick: onClose })}
           position={'absolute'}
-          right={0}
-          top={0}
+          right={1}
+          top={1}
           w={'40px'}
           h={'40px'}
         >
@@ -176,9 +176,18 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
                 value={packageName}
                 onChange={(e) => setPackageName(e.target.value)}
                 placeholder={'Package Name...'}
+                autoFocus
               />
               <InputRightElement width={'75px'}>
-                <Button width={'100%'} type={'submit'}>
+                <Button
+                  width={'100%'}
+                  type={'submit'}
+                  variant={'main'}
+                  bgColor={'whiteAlpha.100'}
+                  _hover={{
+                    bgColor: 'whiteAlpha.300',
+                  }}
+                >
                   Add
                 </Button>
               </InputRightElement>
@@ -231,19 +240,19 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
                 </GridItem>
               </Grid>
             ))}
-            {_.map(packageJson ?? {}, (version, name) => (
-              <Grid
-                templateColumns={'repeat(2, 1fr)'}
-                gap={1}
-                key={`${name}@${version}`}
-              >
-                <GridItem px={1}>
-                  <Text color={'whiteAlpha.700'}>
-                    {name}@{version}
-                  </Text>
-                </GridItem>
-                <GridItem px={1} display={'flex'} justifyContent={'flex-end'}>
-                  {!_.includes(_.values(EXCLUDED_PACKAGE), name) ? (
+            {_.map(packageJson ?? {}, (version, name) =>
+              !_.includes(_.values(EXCLUDED_PACKAGE), name) ? (
+                <Grid
+                  templateColumns={'repeat(2, 1fr)'}
+                  gap={1}
+                  key={`${name}@${version}`}
+                >
+                  <GridItem px={1}>
+                    <Text color={'whiteAlpha.700'}>
+                      {name}@{version}
+                    </Text>
+                  </GridItem>
+                  <GridItem px={1} display={'flex'} justifyContent={'flex-end'}>
                     <Checkbox
                       borderRadius={'lg'}
                       onChange={() => dropPackage(name)}
@@ -254,16 +263,21 @@ const Settings = ({ isOpen, onClose, packageJson }: Props) => {
                         ) !== -1
                       }
                     />
-                  ) : null}
-                </GridItem>
-              </Grid>
-            ))}
+                  </GridItem>
+                </Grid>
+              ) : null
+            )}
           </Stack>
           <Button
             width={'100%'}
             onClick={onUpdate}
             isLoading={isProcessing}
             disabled={isProcessing}
+            variant={'main'}
+            bgColor={'whiteAlpha.100'}
+            _hover={{
+              bgColor: 'whiteAlpha.300',
+            }}
           >
             Update
           </Button>
