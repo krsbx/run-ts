@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { useCallback } from 'react';
-import { READ_WRITE, UTILITY } from '../utils/constant/ipc';
+import { UTILITY } from '../utils/constant/ipc';
 
 const useUtility = () => {
   const getFileDirPath = useCallback((filePath: string) => {
@@ -13,7 +13,7 @@ const useUtility = () => {
   const compileRun = useCallback(
     (content: string, filePath: string, configPath: string = '') => {
       return window.ipcRenderer.invoke(
-        READ_WRITE.COMPILE_RUN,
+        UTILITY.COMPILE_RUN,
         content,
         filePath.replace(/\ /, '\\ '),
         configPath.replace(/\ /, '\\ ')

@@ -13,13 +13,13 @@
   files: ['dist', 'dist-electron'],
   extraFiles: [
     {
-      from: 'electron/resources',
-      to: 'resources',
+      from: 'electron/files',
+      to: 'files',
       filter: ['**/*'],
     },
     {
       from: 'node_modules/yarn',
-      to: 'yarn',
+      to: 'files/yarn',
       filter: ['**/*'],
     },
   ],
