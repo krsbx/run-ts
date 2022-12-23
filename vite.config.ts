@@ -27,7 +27,7 @@ export default defineConfig({
   build: {
     minify: false,
     rollupOptions: {
-      external: Object.keys(pkg.dependencies),
+      external: Object.keys(pkg?.dependencies ?? {}),
     },
   },
   server: process.env.VSCODE_DEBUG
